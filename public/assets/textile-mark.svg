@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" fill="none">
+  <defs>
+    <g id="nested-diamond">
+      <path d="M56 7 105 56 56 105 7 56 56 7Z"/>
+      <path d="M56 22 90 56 56 90 22 56 56 22Z"/>
+      <path d="M56 34 78 56 56 78 34 56 56 34Z"/>
+      <path d="M56 43 69 56 56 69 43 56 56 43Z"/>
+      <path d="m56 1 6 6-6 6-6-6 6-6ZM35 16l6 6-6 6-6-6 6-6ZM20 31l6 6-6 6-6-6 6-6ZM5 46l6 6-6 6-6-6 6-6ZM77 16l6 6-6 6-6-6 6-6ZM92 31l6 6-6 6-6-6 6-6ZM107 46l6 6-6 6-6-6 6-6ZM35 84l6 6-6 6-6-6 6-6ZM20 69l6 6-6 6-6-6 6-6ZM77 84l6 6-6 6-6-6 6-6ZM92 69l6 6-6 6-6-6 6-6ZM56 99l6 6-6 6-6-6 6-6Z"/>
+    </g>
+
+    <g id="woven-diamond">
+      <path d="M56 8 101 56 56 104 11 56 56 8Z"/>
+      <path d="M22 44 68 90M17 52l43 43M30 33l48 48M38 25l48 48M46 17l43 43M90 44 44 90M95 52 52 95M82 33 34 81M74 25 26 73M66 17 23 60"/>
+      <path d="M4 47v18M10 43v26M108 47v18M102 43v26M47 4h18M43 10h26M47 108h18M43 102h26"/>
+      <path d="M0 52h20M0 60h20M92 52h20M92 60h20M52 0v20M60 0v20M52 92v20M60 92v20"/>
+    </g>
+
+    <g id="stepped-diamond">
+      <path d="M56 10 102 56 56 102 10 56 56 10Z"/>
+      <path d="M56 25 87 56 56 87 25 56 56 25Z"/>
+      <path d="M56 36 76 56 56 76 36 56 56 36Z"/>
+      <path d="M42 16h28M34 22h44M28 28h56M21 35h70M16 42h80M42 96h28M34 90h44M28 84h56M21 77h70M16 70h80"/>
+      <path d="m56 1 6 6-6 6-6-6 6-6ZM5 50l6 6-6 6-6-6 6-6ZM107 50l6 6-6 6-6-6 6-6ZM56 99l6 6-6 6-6-6 6-6Z"/>
+    </g>
+  </defs>
+
+  <g stroke="#c39a7b" stroke-width="1.35" stroke-linecap="square" stroke-linejoin="miter" opacity="0.34">
+    <use href="#nested-diamond" x="18" y="18"/>
+    <use href="#woven-diamond" x="224" y="18"/>
+    <use href="#stepped-diamond" x="430" y="18"/>
+    <use href="#stepped-diamond" x="121" y="218"/>
+    <use href="#nested-diamond" x="327" y="218"/>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 900" fill="none">
+  <g stroke="#dbc9b6" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="3" d="M310 86c0-32 20-58 46-58s46 26 46 58c0 30-21 56-46 56s-46-26-46-56Z"/>
+    <path stroke-width="2" d="M327 135c-7 36-30 56-77 71l-81 28-47 226 73 21 36-141-9 222 23 276h97l14-255 15 255h96l21-276-8-221 37 140 72-21-48-226-79-28c-48-15-72-35-79-71"/>
+    <path stroke-width="3" d="m253 206 103 139 103-139M356 345v238M253 206l-22 134M459 206l21 135M310 221l46 124 47-124M246 562h221M342 583l-33 255M370 583l34 255"/>
+    <path stroke-width="2" d="m320 249-39 85 75 11M392 249l39 85-75 11M332 397h48M332 415h48"/>
+    <circle cx="356" cy="380" r="4" fill="#dbc9b6" stroke="none"/>
+    <circle cx="356" cy="438" r="4" fill="#dbc9b6" stroke="none"/>
+    <circle cx="356" cy="496" r="4" fill="#dbc9b6" stroke="none"/>
+  </g>
+  <g stroke="#a9785f" stroke-width="1.5" stroke-dasharray="7 9">
+    <path d="M142 219h415M143 350h428M174 559h379M245 835h222"/>
+    <path d="M116 220v339M594 220v339"/>
+  </g>
+  <g fill="#dbc9b6" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-style="italic">
+    <text x="44" y="214">shoulder</text>
+    <text x="602" y="355">waist</text>
+    <text x="600" y="565">jacket hem</text>
+    <text x="30" y="848">made to measure</text>
+  </g>
+  <g stroke="#dbc9b6" stroke-width="2">
+    <path d="M660 108v190M644 116h32M650 146h20M644 176h32M650 206h20M644 236h32M650 266h20M644 296h32"/>
+  </g>
+</svg>
