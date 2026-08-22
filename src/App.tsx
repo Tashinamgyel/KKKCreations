@@ -240,14 +240,28 @@ function Hero() {
         <i />
         <span>Made in Thimphu</span>
       </div>
-      <img
-        className="hero-image"
-        src="/assets/kkk-hero.png"
-        alt="Woman wearing a made-to-measure black jacket against a warm brown background"
-        width="1680"
-        height="945"
-        {...{ fetchpriority: 'high' }}
-      />
+      <picture className="hero-picture">
+        <source
+          type="image/avif"
+          srcSet="/assets/kkk-hero-v1-768.avif 768w, /assets/kkk-hero-v1-1280.avif 1280w, /assets/kkk-hero-v1-1672.avif 1672w"
+          sizes="100vw"
+        />
+        <source
+          type="image/webp"
+          srcSet="/assets/kkk-hero-v1-768.webp 768w, /assets/kkk-hero-v1-1280.webp 1280w, /assets/kkk-hero-v1-1672.webp 1672w"
+          sizes="100vw"
+        />
+        <img
+          className="hero-image"
+          src="/assets/kkk-hero.png"
+          alt="Woman wearing a made-to-measure black jacket against a warm brown background"
+          width="1672"
+          height="941"
+          sizes="100vw"
+          decoding="async"
+          {...{ fetchpriority: 'high' }}
+        />
+      </picture>
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-content page-shell">
         <p className="eyebrow eyebrow--light">Bespoke tailoring · Bhutan</p>
