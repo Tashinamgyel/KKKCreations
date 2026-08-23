@@ -3,6 +3,7 @@ import {
   type FormEvent,
   type MouseEvent as ReactMouseEvent,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import {
@@ -155,17 +156,35 @@ function ScrollManager() {
 
 function Header({ light = false }: { light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navigationRef = useRef<HTMLElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   const transitionTo = useRouteTransition()
 
   useEffect(() => {
     if (!menuOpen) return
 
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false)
+      if (event.key !== 'Escape') return
+
+      setMenuOpen(false)
+      menuButtonRef.current?.focus()
+    }
+
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      const target = event.target
+      if (!(target instanceof Node)) return
+      if (navigationRef.current?.contains(target) || menuButtonRef.current?.contains(target)) return
+
+      setMenuOpen(false)
     }
 
     document.addEventListener('keydown', closeOnEscape)
-    return () => document.removeEventListener('keydown', closeOnEscape)
+    document.addEventListener('pointerdown', closeOnOutsidePress)
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape)
+      document.removeEventListener('pointerdown', closeOnOutsidePress)
+    }
   }, [menuOpen])
 
   return (
@@ -182,6 +201,7 @@ function Header({ light = false }: { light?: boolean }) {
         </Link>
 
         <nav
+          ref={navigationRef}
           id="main-navigation"
           className={`main-nav${menuOpen ? ' main-nav--open' : ''}`}
           aria-label="Main navigation"
@@ -216,6 +236,7 @@ function Header({ light = false }: { light?: boolean }) {
         </Link>
 
         <button
+          ref={menuButtonRef}
           className="menu-toggle"
           type="button"
           aria-expanded={menuOpen}

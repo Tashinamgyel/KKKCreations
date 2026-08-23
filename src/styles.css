@@ -513,13 +513,6 @@ button {
   }
 }
 
-@media (min-width: 1800px) {
-  .hero .header-inner,
-  .hero-content {
-    width: min(100% - 160px, 1680px);
-  }
-}
-
 .collections {
   padding-top: 128px;
   background: var(--ivory-50);
@@ -584,6 +577,17 @@ button {
 
 .collection-card--women {
   background-position: center top;
+}
+
+@media (min-width: 1800px) {
+  .hero .header-inner,
+  .hero-content {
+    width: min(100% - 160px, 1680px);
+  }
+
+  .collection-card {
+    background-size: 300% auto;
+  }
 }
 
 .collection-card::after {
