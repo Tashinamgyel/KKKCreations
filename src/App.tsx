@@ -22,6 +22,15 @@ type GalleryItem = {
   position: string
 }
 
+type ClientReview = {
+  name: string
+  comment: string
+  rating: number
+}
+
+type BookingField = 'name' | 'email' | 'phone'
+type BookingErrors = Partial<Record<BookingField, string>>
+
 const galleryItems: GalleryItem[] = [
   {
     title: 'Cacao wool jacket',
@@ -75,6 +84,30 @@ const collectionCopy = {
     categories: ['All', 'Jackets', 'Suits', 'Shirts', 'Details'],
   },
 }
+
+const clientReviews: ClientReview[] = [
+  {
+    name: 'Sonam D.',
+    comment: 'The jacket feels precise without feeling stiff. Every detail was discussed, and the finished fit feels completely natural.',
+    rating: 5,
+  },
+  {
+    name: 'Pema C.',
+    comment: 'I brought a saved reference and chose the cloth in the studio. KKKCreations translated the idea beautifully while making it work for me.',
+    rating: 5,
+  },
+  {
+    name: 'Karma W.',
+    comment: 'Thoughtful fittings, careful finishing and clear advice throughout. The final piece is one I will keep reaching for.',
+    rating: 4,
+  },
+]
+
+const socialPlatforms = [
+  { name: 'Instagram', platform: 'instagram' },
+  { name: 'Facebook', platform: 'facebook' },
+  { name: 'TikTok', platform: 'tiktok' },
+] as const
 
 const ROUTE_LEAVE_MS = 180
 const ROUTE_ENTER_MS = 420
@@ -154,8 +187,137 @@ function ScrollManager() {
   return null
 }
 
+function ReviewDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const [rating, setRating] = useState(5)
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    if (open && !dialog.open) {
+      setRating(5)
+      setSubmitted(false)
+      dialog.showModal()
+    } else if (!open && dialog.open) {
+      dialog.close()
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open])
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setSubmitted(true)
+  }
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className="review-dialog"
+      aria-labelledby="review-dialog-title"
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose()
+      }}
+    >
+      <div className="review-dialog-panel">
+        <button
+          className="review-dialog-close"
+          type="button"
+          aria-label="Close review form"
+          onClick={onClose}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+
+        {submitted ? (
+          <div className="review-confirmation" aria-live="polite">
+            <p className="eyebrow">Review received</p>
+            <h2 id="review-dialog-title">Thank you for sharing.</h2>
+            <p>
+              This prototype confirms the submission without publishing it. Saving and
+              moderation will be connected when the backend is ready.
+            </p>
+            <button className="button button--brown" type="button" onClick={onClose}>
+              Close
+            </button>
+          </div>
+        ) : (
+          <form className="review-form" onSubmit={handleSubmit}>
+            <p className="eyebrow">Your experience, in your words</p>
+            <h2 id="review-dialog-title">Leave a review.</h2>
+
+            <label className="review-field">
+              <span>Your name</span>
+              <input name="reviewerName" autoComplete="name" required />
+            </label>
+
+            <label className="review-field">
+              <span>Your review</span>
+              <textarea
+                name="review"
+                placeholder="Tell us about your garment and fitting experience…"
+                maxLength={600}
+                required
+              />
+            </label>
+
+            <fieldset className="review-rating-control">
+              <legend>Rating</legend>
+              <div className="rating-options">
+                {[0, 1, 2, 3, 4, 5].map((value) => (
+                  <span className={`rating-option${value === 0 ? ' rating-option--zero' : ''}`} key={value}>
+                    <input
+                      id={`review-rating-${value}`}
+                      type="radio"
+                      name="rating"
+                      value={value}
+                      checked={rating === value}
+                      onChange={() => setRating(value)}
+                    />
+                    <label
+                      className={value > 0 && value <= rating ? 'is-selected' : ''}
+                      htmlFor={`review-rating-${value}`}
+                    >
+                      <span aria-hidden="true">{value === 0 ? '0' : '★'}</span>
+                      <span className="visually-hidden">{value} out of 5 stars</span>
+                    </label>
+                  </span>
+                ))}
+              </div>
+              <p aria-live="polite">{rating} out of 5 stars</p>
+            </fieldset>
+
+            <button className="button button--brown" type="submit">
+              Submit review
+            </button>
+            <p className="review-form-note">
+              Preview form only. Reviews will be saved once the backend is connected.
+            </p>
+          </form>
+        )}
+      </div>
+    </dialog>
+  )
+}
+
 function Header({ light = false }: { light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [reviewOpen, setReviewOpen] = useState(false)
   const navigationRef = useRef<HTMLElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const transitionTo = useRouteTransition()
@@ -188,67 +350,80 @@ function Header({ light = false }: { light?: boolean }) {
   }, [menuOpen])
 
   return (
-    <header className={`site-header${light ? ' site-header--light' : ''}`}>
-      <div className="header-inner">
-        <Link
-          className="wordmark"
-          to="/"
-          aria-label="KKKCreations home"
-          translate="no"
-          viewTransition
-        >
-          <span>KKK</span>Creations
-        </Link>
-
-        <nav
-          ref={navigationRef}
-          id="main-navigation"
-          className={`main-nav${menuOpen ? ' main-nav--open' : ''}`}
-          aria-label="Main navigation"
-        >
+    <>
+      <header className={`site-header${light ? ' site-header--light' : ''}`}>
+        <div className="header-inner">
           <Link
-            to="/collections/men"
+            className="wordmark"
+            to="/"
+            aria-label="KKKCreations home"
+            translate="no"
             viewTransition
-            onClick={(event) => {
-              setMenuOpen(false)
-              transitionTo('/collections/men', event)
-            }}
           >
-            Men
+            <span>KKK</span>Creations
           </Link>
-          <Link
-            to="/collections/women"
-            viewTransition
-            onClick={(event) => {
-              setMenuOpen(false)
-              transitionTo('/collections/women', event)
-            }}
+
+          <nav
+            ref={navigationRef}
+            id="main-navigation"
+            className={`main-nav${menuOpen ? ' main-nav--open' : ''}`}
+            aria-label="Main navigation"
           >
-            Women
+            <Link
+              to="/collections/men"
+              viewTransition
+              onClick={(event) => {
+                setMenuOpen(false)
+                transitionTo('/collections/men', event)
+              }}
+            >
+              Men
+            </Link>
+            <Link
+              to="/collections/women"
+              viewTransition
+              onClick={(event) => {
+                setMenuOpen(false)
+                transitionTo('/collections/women', event)
+              }}
+            >
+              Women
+            </Link>
+            <Link to="/#work" onClick={() => setMenuOpen(false)}>Our work</Link>
+            <Link to="/#offers" onClick={() => setMenuOpen(false)}>Offers</Link>
+            <Link to="/#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+            <button
+              className="nav-review-trigger"
+              type="button"
+              onClick={() => {
+                setMenuOpen(false)
+                setReviewOpen(true)
+              }}
+            >
+              Leave a review
+            </button>
+          </nav>
+
+          <Link className="header-appointment" to="/#appointment">
+            Book a fitting <ArrowIcon />
           </Link>
-          <Link to="/#work" onClick={() => setMenuOpen(false)}>Our work</Link>
-          <Link to="/#offers" onClick={() => setMenuOpen(false)}>Offers</Link>
-          <Link to="/#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-        </nav>
 
-        <Link className="header-appointment" to="/#appointment">
-          Book a fitting <ArrowIcon />
-        </Link>
-
-        <button
-          ref={menuButtonRef}
-          className="menu-toggle"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="main-navigation"
-          aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span />
-          <span />
-        </button>
-      </div>
-    </header>
+          <button
+            ref={menuButtonRef}
+            className="menu-toggle"
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="main-navigation"
+            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+          </button>
+        </div>
+      </header>
+      <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} />
+    </>
   )
 }
 
@@ -350,9 +525,49 @@ function Collections() {
 
 function Appointment() {
   const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState<BookingErrors>({})
+
+  function clearError(field: BookingField) {
+    setErrors((currentErrors) => {
+      if (!currentErrors[field]) return currentErrors
+
+      const nextErrors = { ...currentErrors }
+      delete nextErrors[field]
+      return nextErrors
+    })
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    const form = event.currentTarget
+    const nameInput = form.elements.namedItem('name') as HTMLInputElement | null
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement | null
+    const phoneInput = form.elements.namedItem('phone') as HTMLInputElement | null
+    const nextErrors: BookingErrors = {}
+
+    if (!nameInput?.value.trim()) nextErrors.name = 'Enter your name.'
+
+    if (!emailInput?.value.trim()) {
+      nextErrors.email = 'Enter your email address.'
+    } else if (emailInput.validity.typeMismatch) {
+      nextErrors.email = 'Enter a valid email address.'
+    }
+
+    if (!phoneInput?.value.trim()) nextErrors.phone = 'Enter your phone number.'
+
+    setErrors(nextErrors)
+
+    const firstInvalidField = (['name', 'email', 'phone'] as BookingField[])
+      .find((field) => nextErrors[field])
+
+    if (firstInvalidField) {
+      setSubmitted(false)
+      const invalidInput = form.elements.namedItem(firstInvalidField) as HTMLInputElement | null
+      invalidInput?.focus()
+      return
+    }
+
     setSubmitted(true)
   }
 
@@ -392,14 +607,27 @@ function Appointment() {
           <div>
             <span>Contact</span>
             <p><a href="mailto:hello@kkkcreations.bt">hello@kkkcreations.bt</a></p>
+            <p><a href="tel:17123456">17123456</a></p>
           </div>
         </div>
 
-        <form className="booking-form" onSubmit={handleSubmit}>
-          <div className="field-row">
+        <form className="booking-form" noValidate onSubmit={handleSubmit}>
+          <div className="field-row field-row--contact">
             <label>
               <span>Your name</span>
-              <input name="name" autoComplete="name" required />
+              <input
+                name="name"
+                autoComplete="name"
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? 'booking-name-error' : undefined}
+                onInput={() => clearError('name')}
+                required
+              />
+              {errors.name ? (
+                <small className="field-error" id="booking-name-error" aria-live="polite">
+                  {errors.name}
+                </small>
+              ) : null}
             </label>
             <label>
               <span>Email</span>
@@ -408,8 +636,34 @@ function Appointment() {
                 name="email"
                 autoComplete="email"
                 spellCheck={false}
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? 'booking-email-error' : undefined}
+                onInput={() => clearError('email')}
                 required
               />
+              {errors.email ? (
+                <small className="field-error" id="booking-email-error" aria-live="polite">
+                  {errors.email}
+                </small>
+              ) : null}
+            </label>
+            <label>
+              <span>Phone</span>
+              <input
+                type="tel"
+                name="phone"
+                inputMode="tel"
+                autoComplete="tel"
+                aria-invalid={Boolean(errors.phone)}
+                aria-describedby={errors.phone ? 'booking-phone-error' : undefined}
+                onInput={() => clearError('phone')}
+                required
+              />
+              {errors.phone ? (
+                <small className="field-error" id="booking-phone-error" aria-live="polite">
+                  {errors.phone}
+                </small>
+              ) : null}
             </label>
           </div>
           <div className="field-row">
@@ -549,15 +803,184 @@ function Recognition() {
   )
 }
 
+function Reviews() {
+  const reviewTrackRef = useRef<HTMLDivElement>(null)
+  const [scrollState, setScrollState] = useState({ canGoBack: false, canGoForward: true })
+
+  useEffect(() => {
+    const track = reviewTrackRef.current
+    if (!track) return
+
+    const updateScrollState = () => {
+      const maximumScroll = track.scrollWidth - track.clientWidth
+      const nextState = {
+        canGoBack: track.scrollLeft > 4,
+        canGoForward: track.scrollLeft < maximumScroll - 4,
+      }
+
+      setScrollState((currentState) => (
+        currentState.canGoBack === nextState.canGoBack &&
+        currentState.canGoForward === nextState.canGoForward
+          ? currentState
+          : nextState
+      ))
+    }
+
+    updateScrollState()
+    track.addEventListener('scroll', updateScrollState, { passive: true })
+
+    const resizeObserver = new ResizeObserver(updateScrollState)
+    resizeObserver.observe(track)
+
+    return () => {
+      track.removeEventListener('scroll', updateScrollState)
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  function scrollReviews(direction: -1 | 1) {
+    const track = reviewTrackRef.current
+    const firstReview = track?.querySelector<HTMLElement>('.review-entry')
+    if (!track || !firstReview) return
+
+    const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    track.scrollBy({
+      left: direction * (firstReview.getBoundingClientRect().width + gap),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  }
+
+  return (
+    <section className="reviews" id="reviews" aria-labelledby="reviews-title">
+      <div className="reviews-layout page-shell">
+        <div className="reviews-heading">
+          <p className="eyebrow">Client notes · Preview</p>
+          <h2 id="reviews-title">Made for one. Remembered warmly.</h2>
+          <p>
+            A first look at how client feedback will appear. Verified reviews will replace these
+            sample entries when the studio backend is connected.
+          </p>
+        </div>
+
+        <div className="reviews-rail">
+          <div className="reviews-toolbar">
+            <p id="reviews-instructions">
+              {clientReviews.length} client notes · Swipe, scroll or use the arrows
+            </p>
+            <div className="reviews-controls" aria-label="Review navigation">
+              <button
+                className="review-nav-button review-nav-button--previous"
+                type="button"
+                aria-label="Previous review"
+                disabled={!scrollState.canGoBack}
+                onClick={() => scrollReviews(-1)}
+              >
+                <ArrowIcon />
+              </button>
+              <button
+                className="review-nav-button"
+                type="button"
+                aria-label="Next review"
+                disabled={!scrollState.canGoForward}
+                onClick={() => scrollReviews(1)}
+              >
+                <ArrowIcon />
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={reviewTrackRef}
+            className="reviews-list"
+            role="region"
+            aria-label="Client reviews"
+            aria-describedby="reviews-instructions"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+
+              event.preventDefault()
+              scrollReviews(event.key === 'ArrowLeft' ? -1 : 1)
+            }}
+          >
+            {clientReviews.map((review) => (
+              <article className="review-entry" key={review.name}>
+                <p className="review-author">{review.name}</p>
+                <blockquote>
+                  <p>“{review.comment}”</p>
+                </blockquote>
+                <p className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
+                  <span aria-hidden="true">
+                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                  </span>
+                  <span>{review.rating}/5</span>
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SocialIcon({ platform }: { platform: 'instagram' | 'facebook' | 'tiktok' }) {
+  if (platform === 'instagram') {
+    return (
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle className="social-icon-dot" cx="17.4" cy="6.7" r="1" />
+      </svg>
+    )
+  }
+
+  if (platform === 'facebook') {
+    return (
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+        <path
+          className="social-icon-fill"
+          d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V4c-.3 0-1.4-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.4V10H7.5v3h2.8v8h3.3Z"
+        />
+      </svg>
+    )
+  }
+
+  return (
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+      <path d="M14.5 4v11.1a4.6 4.6 0 1 1-3.4-4.4v3.2a1.6 1.6 0 1 0 .4 1.2V4h3Z" />
+      <path d="M14.5 4c.4 2.2 1.7 3.6 4 4.1v3.1a7.4 7.4 0 0 1-4-1.2" />
+    </svg>
+  )
+}
+
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-main page-shell">
-        <div>
+        <div className="footer-brand">
           <Link className="wordmark wordmark--footer" to="/" translate="no">
             <span>KKK</span>Creations
           </Link>
           <p>Bespoke tailoring, made in Bhutan.</p>
+          <div className="footer-socials">
+            <span className="footer-socials-label">Social</span>
+            <div className="footer-social-icons" role="list" aria-label="Social media handles">
+              {socialPlatforms.map((social) => (
+                <span
+                  className="footer-social-placeholder"
+                  role="listitem"
+                  title={`${social.name} link to be supplied`}
+                  key={social.name}
+                >
+                  <SocialIcon platform={social.platform} />
+                  <span className="visually-hidden">{social.name} link to be supplied</span>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="footer-links">
           <div>
@@ -570,6 +993,7 @@ function Footer() {
             <span>Visit</span>
             <Link to="/#appointment">Book a fitting</Link>
             <a href="mailto:hello@kkkcreations.bt">Contact the studio</a>
+            <a href="tel:17123456">17123456</a>
             <span className="footer-address">Thimphu, Bhutan</span>
           </div>
         </div>
@@ -591,6 +1015,7 @@ function HomePage() {
       <SelectedWork />
       <Offers />
       <Recognition />
+      <Reviews />
       <Footer />
     </main>
   )
