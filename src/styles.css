@@ -354,24 +354,12 @@ button {
   letter-spacing: 0.08em;
 }
 
-.main-nav a,
-.nav-review-trigger {
+.main-nav a {
   position: relative;
   padding-block: 10px;
 }
 
-.nav-review-trigger {
-  padding-inline: 0;
-  border: 0;
-  color: inherit;
-  background: transparent;
-  font: inherit;
-  letter-spacing: inherit;
-  cursor: pointer;
-}
-
-.main-nav a::after,
-.nav-review-trigger::after {
+.main-nav a::after {
   position: absolute;
   right: 0;
   bottom: 4px;
@@ -384,8 +372,7 @@ button {
   transition: transform 180ms ease;
 }
 
-.main-nav a:hover::after,
-.nav-review-trigger:hover::after {
+.main-nav a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -419,221 +406,6 @@ button {
   background: currentColor;
 }
 
-.review-dialog {
-  width: min(calc(100% - 32px), 760px);
-  max-height: min(90svh, 920px);
-  padding: 0;
-  overflow: auto;
-  border: 0;
-  color: var(--ink);
-  background: var(--ivory-50);
-}
-
-.review-dialog[open] {
-  animation: dialog-enter 320ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
-}
-
-.review-dialog::backdrop {
-  background: rgba(24, 17, 14, 0.72);
-}
-
-.review-dialog-panel {
-  position: relative;
-  padding: clamp(42px, 7vw, 82px);
-}
-
-.review-dialog-close {
-  position: absolute;
-  z-index: 1;
-  top: 20px;
-  right: 20px;
-  display: grid;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  place-items: center;
-  border: 1px solid var(--line);
-  color: var(--cocoa-900);
-  background: transparent;
-  cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease;
-}
-
-.review-dialog-close:hover {
-  color: var(--ivory-50);
-  background: var(--cocoa-900);
-}
-
-.review-dialog-close span {
-  position: relative;
-  display: block;
-  width: 16px;
-  height: 16px;
-  font-size: 0;
-}
-
-.review-dialog-close span::before,
-.review-dialog-close span::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 1px;
-  background: currentColor;
-  content: '';
-  transform-origin: center;
-}
-
-.review-dialog-close span::before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.review-dialog-close span::after {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.review-dialog h2 {
-  max-width: 560px;
-  margin-bottom: 42px;
-  padding-right: 42px;
-  font-size: clamp(3.5rem, 7vw, 5.8rem);
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.86;
-}
-
-.review-field {
-  display: block;
-  margin-bottom: 30px;
-}
-
-.review-field > span,
-.review-rating-control legend {
-  display: block;
-  margin-bottom: 9px;
-  color: var(--umber-500);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.review-form input:not([type='radio']),
-.review-form textarea {
-  width: 100%;
-  padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  color: var(--ink);
-  background: transparent;
-}
-
-.review-form input:not([type='radio']) {
-  min-height: 50px;
-}
-
-.review-form textarea {
-  min-height: 126px;
-  line-height: 1.5;
-  resize: vertical;
-}
-
-.review-form input:focus,
-.review-form textarea:focus {
-  border-color: var(--cocoa-700);
-}
-
-.review-rating-control {
-  min-width: 0;
-  margin: 0 0 34px;
-  padding: 0;
-  border: 0;
-}
-
-.rating-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.rating-option {
-  position: relative;
-}
-
-.rating-option input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-}
-
-.rating-option label {
-  display: grid;
-  width: 46px;
-  height: 46px;
-  place-items: center;
-  border: 1px solid var(--line);
-  color: var(--clay-300);
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease;
-}
-
-.rating-option label:hover,
-.rating-option label.is-selected,
-.rating-option input:checked + label {
-  border-color: var(--cocoa-700);
-  color: var(--ivory-50);
-  background: var(--cocoa-700);
-}
-
-.rating-option input:focus-visible + label {
-  outline: 2px solid var(--cocoa-700);
-  outline-offset: 4px;
-}
-
-.rating-option--zero label {
-  color: var(--cocoa-700);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.review-rating-control > p,
-.review-form-note {
-  color: var(--umber-500);
-  font-size: 0.92rem;
-}
-
-.review-rating-control > p {
-  margin: 12px 0 0;
-}
-
-.review-form-note {
-  max-width: 420px;
-  margin: 18px 0 0;
-  line-height: 1.45;
-}
-
-.review-confirmation p:not(.eyebrow) {
-  max-width: 520px;
-  margin-bottom: 34px;
-  font-size: 1.15rem;
-  line-height: 1.55;
-}
-
-@keyframes dialog-enter {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .hero {
   position: relative;
   min-height: 100svh;
@@ -644,24 +416,19 @@ button {
 
 .hero-picture {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: block;
-  width: 100%;
+  width: 54%;
   height: 100%;
+  overflow: hidden;
 }
 
-.hero-image {
+.hero-picture img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-}
-
-.hero-shade {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 58%;
-  background: rgba(24, 17, 14, 0.25);
 }
 
 .hero-content {
@@ -673,7 +440,7 @@ button {
   align-items: flex-start;
   justify-content: center;
   padding-top: 116px;
-  padding-right: min(54vw, 920px);
+  padding-right: min(58vw, 960px);
   animation: hero-enter 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
@@ -767,9 +534,9 @@ button {
 
 .section-heading h2,
 .appointment h2,
+.artists h2,
 .offers h2,
 .recognition h2,
-.reviews h2,
 .collection-cta h2 {
   margin-bottom: 0;
   font-size: clamp(3.2rem, 5.2vw, 6rem);
@@ -800,23 +567,8 @@ button {
   justify-content: flex-end;
   padding: clamp(28px, 4vw, 64px);
   color: var(--ivory-50);
-  background-image: url('/assets/work-atlas.png');
-  background-image: image-set(
-    '/assets/work-atlas-v1.avif' type('image/avif'),
-    '/assets/work-atlas-v1.webp' type('image/webp'),
-    '/assets/work-atlas.png' type('image/png')
-  );
-  background-repeat: no-repeat;
-  background-size: auto 200%;
+  background: var(--cocoa-800);
   isolation: isolate;
-}
-
-.collection-card--men {
-  background-position: left top;
-}
-
-.collection-card--women {
-  background-position: center top;
 }
 
 @media (min-width: 1800px) {
@@ -824,10 +576,27 @@ button {
   .hero-content {
     width: min(100% - 160px, 1680px);
   }
+}
 
-  .collection-card {
-    background-size: 300% auto;
-  }
+.collection-photo {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.collection-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.collection-card:hover .collection-photo img {
+  transform: scale(1.025);
 }
 
 .collection-card::after {
@@ -958,7 +727,7 @@ button {
 }
 
 .contact-ledger span,
-.booking-form label > span {
+.booking-field > label {
   display: block;
   margin-bottom: 10px;
   color: var(--clay-300);
@@ -988,6 +757,31 @@ button {
   max-width: 680px;
 }
 
+.booking-required-note {
+  margin-bottom: 24px;
+  color: var(--muslin-200);
+  font-size: 0.92rem;
+}
+
+.booking-fields {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.booking-field {
+  min-width: 0;
+}
+
+.booking-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .field-row {
   display: grid;
   gap: 24px;
@@ -1012,13 +806,26 @@ button {
   color-scheme: dark;
 }
 
-.booking-form input:focus,
-.booking-form select:focus {
+.booking-form option {
+  color: var(--ivory-50);
+  background-color: var(--cocoa-900);
+}
+
+.booking-form input:focus-visible,
+.booking-form select:focus-visible {
   border-color: var(--ivory-50);
 }
 
-.booking-form input[aria-invalid='true'] {
+.booking-form input[aria-invalid='true'],
+.booking-form select[aria-invalid='true'] {
   border-color: #e1a78b;
+}
+
+.field-optional {
+  color: var(--muslin-200);
+  font-size: 0.85em;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .field-error {
@@ -1037,6 +844,61 @@ button {
   line-height: 1.4;
 }
 
+.form-note--error {
+  color: #efb79c;
+}
+
+.form-note--privacy {
+  max-width: 620px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(250, 248, 243, 0.28);
+}
+
+.booking-spinner {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  border: 1px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: booking-spin 700ms linear infinite;
+}
+
+@keyframes booking-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.booking-confirmation {
+  max-width: 640px;
+  padding-block: 16px;
+}
+
+.booking-confirmation h3 {
+  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 3.5vw, 3.6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.booking-confirmation > p:not(.eyebrow) {
+  max-width: 560px;
+  margin-bottom: 26px;
+  color: var(--muslin-200);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.booking-confirmation .text-link {
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
 .work {
   padding-block: 136px 150px;
 }
@@ -1052,17 +914,18 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.atlas-image {
-  aspect-ratio: 1;
+.work-image {
+  display: block;
+  aspect-ratio: 4 / 5;
   margin-bottom: 24px;
-  background-image: url('/assets/work-atlas.png');
-  background-image: image-set(
-    '/assets/work-atlas-v1.avif' type('image/avif'),
-    '/assets/work-atlas-v1.webp' type('image/webp'),
-    '/assets/work-atlas.png' type('image/png')
-  );
-  background-repeat: no-repeat;
-  background-size: 300% 200%;
+  overflow: hidden;
+  background: var(--parchment-100);
+}
+
+.work-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .work-card:nth-child(2),
@@ -1096,6 +959,119 @@ button {
   margin-bottom: 0;
   color: #62544c;
   font-size: 1rem;
+}
+
+.artists {
+  padding-block: 136px;
+  color: var(--ivory-50);
+  background: var(--cocoa-950);
+}
+
+.artists-page {
+  min-height: 100vh;
+  background: var(--cocoa-950);
+}
+
+.artists-page .artists {
+  padding-block: clamp(100px, 11vw, 170px);
+}
+
+.artists-inner {
+  display: grid;
+  align-items: start;
+  gap: 56px clamp(50px, 7vw, 110px);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+
+.artists-heading {
+  grid-column: 1 / -1;
+  display: grid;
+  align-items: end;
+  gap: 36px clamp(50px, 9vw, 150px);
+  grid-template-columns: 1.15fr 0.85fr;
+}
+
+.artists-heading .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  color: var(--clay-300);
+}
+
+.artists-heading h2 {
+  max-width: 830px;
+  margin-bottom: 0;
+}
+
+.artists-intro,
+.artists-story > p {
+  margin-bottom: 0;
+  color: var(--muslin-200);
+  font-size: 1.14rem;
+  line-height: 1.58;
+}
+
+.artist-portrait {
+  margin: 0;
+}
+
+.artist-portrait picture {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--cocoa-800);
+}
+
+.artist-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artist-portrait figcaption,
+.recognition-image figcaption {
+  padding-top: 14px;
+  color: var(--clay-300);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.artists-story {
+  align-self: center;
+  max-width: 650px;
+}
+
+.artist-names {
+  margin-bottom: 42px;
+  border-top: 1px solid rgba(250, 248, 243, 0.24);
+}
+
+.artist-names p {
+  display: grid;
+  margin-bottom: 0;
+  padding-block: 22px;
+  border-bottom: 1px solid rgba(250, 248, 243, 0.24);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+  grid-template-columns: 52px 1fr;
+}
+
+.artist-names span {
+  align-self: center;
+  color: var(--clay-300);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.artists-story > p + p {
+  margin-top: 20px;
+}
+
+.artists-story .text-link {
+  margin-top: 38px;
+  color: var(--ivory-50);
 }
 
 .offers {
@@ -1184,17 +1160,17 @@ button {
   border-top: 1px solid var(--line);
 }
 
-.recognition-list article {
+.recognition-feature {
   display: grid;
   align-items: center;
   min-height: 152px;
   border-bottom: 1px solid var(--line);
   gap: 30px;
-  grid-template-columns: 120px 1fr auto;
+  grid-template-columns: 120px 1fr auto 40px;
 }
 
-.recognition-list span,
-.recognition-list p {
+.recognition-feature > span:first-child,
+.recognition-feature > p {
   color: var(--umber-500);
   font-size: 0.78rem;
   font-weight: 700;
@@ -1202,180 +1178,48 @@ button {
   text-transform: uppercase;
 }
 
-.recognition-list h3,
-.recognition-list p {
+.recognition-feature h3,
+.recognition-feature p {
   margin-bottom: 0;
 }
 
-.recognition-list h3 {
+.recognition-feature h3 {
   font-size: 2rem;
   font-weight: 500;
 }
 
-.reviews {
-  padding-block: 136px;
-  border-top: 1px solid var(--line);
-  background: var(--parchment-100);
-}
-
-.reviews-layout {
-  display: grid;
-  gap: 100px;
-  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
-}
-
-.reviews-heading {
-  max-width: 540px;
-}
-
-.reviews h2 {
-  margin-bottom: 28px;
-}
-
-.reviews-heading > p:last-child {
-  margin-bottom: 0;
-  font-size: 1.12rem;
-  line-height: 1.55;
-}
-
-.reviews-rail {
-  min-width: 0;
-}
-
-.reviews-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  min-height: 58px;
-  border-top: 1px solid var(--line);
-}
-
-.reviews-toolbar > p {
-  margin-bottom: 0;
-  color: var(--umber-500);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.reviews-controls {
-  display: flex;
-  flex: 0 0 auto;
-}
-
-.review-nav-button {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  place-items: center;
-  border: 0;
-  border-left: 1px solid var(--line);
-  color: var(--cocoa-700);
-  background: transparent;
-  cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, opacity 180ms ease;
-}
-
-.review-nav-button:hover:not(:disabled) {
-  color: var(--ivory-50);
-  background: var(--cocoa-700);
-}
-
-.review-nav-button:disabled {
-  opacity: 0.32;
-  cursor: default;
-}
-
-.review-nav-button svg {
-  width: 24px;
+.recognition-arrow svg {
+  width: 30px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
+  transition: transform 180ms ease;
 }
 
-.review-nav-button--previous svg {
-  transform: rotate(180deg);
+.recognition-feature:hover .recognition-arrow svg {
+  transform: translateX(5px);
 }
 
-.reviews-list {
-  display: flex;
-  gap: 36px;
-  padding: 0 12% 18px 0;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-padding-inline: 0 12%;
-  scroll-snap-type: inline mandatory;
-  scrollbar-color: var(--clay-300) transparent;
-  scrollbar-width: thin;
+.recognition-image {
+  width: min(100%, 520px);
+  margin: 48px auto 0;
 }
 
-.reviews-list:focus-visible {
-  outline-color: var(--cocoa-700);
-  outline-offset: 8px;
+.recognition-image picture {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--parchment-100);
 }
 
-.reviews-list::-webkit-scrollbar {
-  height: 6px;
+.recognition-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.reviews-list::-webkit-scrollbar-thumb {
-  background: var(--clay-300);
-}
-
-.reviews-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.review-entry {
-  min-width: 0;
-  flex: 0 0 min(88%, 720px);
-  padding: 42px 42px 44px 0;
-  border-right: 1px solid var(--line);
-  scroll-snap-align: start;
-}
-
-.review-entry:last-of-type {
-  border-right: 0;
-}
-
-.review-author {
-  margin-bottom: 18px;
+.recognition-image figcaption {
   color: var(--umber-500);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.review-entry blockquote {
-  max-width: 760px;
-  margin: 0 0 24px;
-}
-
-.review-entry blockquote p {
-  margin-bottom: 0;
-  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
-  letter-spacing: -0.025em;
-  line-height: 1.18;
-}
-
-.review-stars {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 0;
-  color: var(--cocoa-700);
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-}
-
-.review-stars > span:first-child {
-  font-size: 1rem;
-  letter-spacing: 0.18em;
 }
 
 .footer {
@@ -1422,15 +1266,21 @@ button {
   gap: 14px;
 }
 
-.footer-social-placeholder {
+.footer-social-link {
   display: grid;
   width: 34px;
   height: 34px;
   place-items: center;
   color: var(--muslin-200);
+  transition: color 180ms ease, transform 180ms ease;
 }
 
-.footer-social-placeholder svg {
+.footer-social-link:hover {
+  color: var(--ivory-50);
+  transform: translateY(-2px);
+}
+
+.footer-social-link svg {
   width: 22px;
   height: 22px;
   fill: none;
@@ -1440,8 +1290,8 @@ button {
   stroke-width: 1.5;
 }
 
-.footer-social-placeholder .social-icon-dot,
-.footer-social-placeholder .social-icon-fill {
+.footer-social-link .social-icon-dot,
+.footer-social-link .social-icon-fill {
   fill: currentColor;
   stroke: none;
 }
@@ -1701,17 +1551,16 @@ button {
     justify-self: start;
   }
 
-  .recognition,
-  .reviews-layout {
+  .recognition {
     gap: 60px;
   }
 
-  .recognition-list article {
-    grid-template-columns: 100px 1fr;
+  .recognition-feature {
+    grid-template-columns: 100px 1fr auto 34px;
   }
 
-  .recognition-list article p {
-    grid-column: 2;
+  .recognition-feature p {
+    grid-column: auto;
   }
 }
 
@@ -1732,16 +1581,18 @@ button {
     top: 78px;
   }
 
-  .hero-content {
-    justify-content: flex-end;
-    padding: 130px 18% 82px 0;
+  .hero-picture {
+    top: 78px;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: 44svh;
+    min-height: 310px;
   }
 
-  .hero-shade {
-    top: auto;
-    width: 100%;
-    height: 60%;
-    background: rgba(24, 17, 14, 0.48);
+  .hero-content {
+    justify-content: flex-end;
+    padding: calc(44svh + 130px) 0 82px;
   }
 
   .hero h1 {
@@ -1757,9 +1608,25 @@ button {
   .offers-intro,
   .collection-hero,
   .recognition,
-  .reviews-layout,
   .footer-main {
     grid-template-columns: 1fr;
+  }
+
+  .artists-inner,
+  .artists-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .artists-heading .eyebrow {
+    grid-column: auto;
+  }
+
+  .artists-heading {
+    gap: 26px;
+  }
+
+  .artist-portrait {
+    width: min(100%, 620px);
   }
 
   .section-heading,
@@ -1826,8 +1693,7 @@ button {
     gap: 72px;
   }
 
-  .recognition-title-wrap,
-  .reviews-heading {
+  .recognition-title-wrap {
     max-width: 660px;
   }
 
@@ -1858,13 +1724,14 @@ button {
     min-height: max(760px, 100svh);
   }
 
-  .hero-image {
-    object-position: 61% center;
+  .hero-picture {
+    height: 39svh;
+    min-height: 290px;
   }
 
   .hero-content {
     min-height: max(760px, 100svh);
-    padding: 120px 0 48px;
+    padding: calc(39svh + 120px) 0 48px;
   }
 
   .hero h1 {
@@ -1895,9 +1762,9 @@ button {
 
   .section-heading h2,
   .appointment h2,
+  .artists h2,
   .offers h2,
   .recognition h2,
-  .reviews h2,
   .collection-cta h2 {
     font-size: clamp(3.1rem, 14vw, 4.6rem);
   }
@@ -1909,14 +1776,6 @@ button {
   .collection-card {
     min-height: 128vw;
     padding: 30px 20px;
-  }
-
-  .collection-card--men {
-    background-position: 11% top;
-  }
-
-  .collection-card--women {
-    background-position: 50% top;
   }
 
   .collection-name {
@@ -1963,6 +1822,14 @@ button {
     padding-block: 92px;
   }
 
+  .artists {
+    padding-block: 92px;
+  }
+
+  .artists-inner {
+    gap: 42px;
+  }
+
   .work-grid,
   .catalogue-grid {
     gap: 46px;
@@ -1990,76 +1857,31 @@ button {
     font-size: 1.9rem;
   }
 
-  .recognition,
-  .reviews {
+  .recognition {
     padding-block: 92px;
-  }
-
-  .review-entry {
-    flex-basis: 88%;
-    padding: 32px 24px 34px 0;
-  }
-
-  .review-entry blockquote p {
-    font-size: 1.7rem;
-  }
-
-  .reviews-toolbar {
-    align-items: flex-end;
-    min-height: 64px;
-  }
-
-  .reviews-toolbar > p {
-    padding-block: 10px;
-    font-size: 0.68rem;
-    line-height: 1.45;
-  }
-
-  .review-nav-button {
-    width: 44px;
-    height: 44px;
-  }
-
-  .reviews-list {
-    gap: 24px;
-  }
-
-  .review-dialog-panel {
-    padding: 72px 24px 36px;
-  }
-
-  .review-dialog-close {
-    top: 12px;
-    right: 12px;
-  }
-
-  .review-dialog h2 {
-    margin-bottom: 34px;
-    padding-right: 0;
-    font-size: clamp(3.4rem, 15vw, 4.8rem);
-  }
-
-  .rating-options {
-    gap: 6px;
-  }
-
-  .rating-option label {
-    width: 42px;
-    height: 42px;
   }
 
   .brand-mark {
     margin-bottom: 36px;
   }
 
-  .recognition-list article {
+  .recognition-feature {
     display: block;
     min-height: 0;
     padding-block: 28px;
   }
 
-  .recognition-list h3 {
+  .recognition-feature h3 {
     margin-block: 12px 4px;
+  }
+
+  .recognition-arrow {
+    display: inline-block;
+    margin-top: 18px;
+  }
+
+  .recognition-image {
+    margin-top: 30px;
   }
 
   .footer-main {
@@ -2114,4 +1936,5 @@ button {
   .route-stage {
     animation: none !important;
   }
+
 }

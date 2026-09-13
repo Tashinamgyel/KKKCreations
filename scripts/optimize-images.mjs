@@ -1,10 +1,15 @@
-import { copyFile, mkdir } from 'node:fs/promises'
+import { copyFile, mkdir, rm } from 'node:fs/promises'
 import path from 'node:path'
 import sharp from 'sharp'
 
 const assetDirectory = path.resolve('public/assets')
+const clientAssetDirectory = path.join(assetDirectory, 'client')
+const clientPhotoDirectory = path.resolve('client photos')
 
 await mkdir(assetDirectory, { recursive: true })
+// This directory contains build derivatives only; clear it so removed sources cannot ship stale.
+await rm(clientAssetDirectory, { recursive: true, force: true })
+await mkdir(clientAssetDirectory, { recursive: true })
 
 const fontSourceDirectory = path.resolve(
   'node_modules/@fontsource/cormorant-garamond/files',
@@ -26,31 +31,43 @@ await Promise.all(
   ),
 )
 
-const heroInput = path.join(assetDirectory, 'kkk-hero.png')
-const heroWidths = [768, 1280, 1672]
+const clientPhotos = [
+  ['dress-1.png', 'dress-1'],
+  ['dress-2.jpeg', 'dress-2'],
+  ['dress-3.png', 'dress-3'],
+  ['dress-4.png', 'dress-4'],
+  ['dress-5.jpeg', 'dress-5'],
+  ['group-dress-4.jpeg', 'group-dress-4'],
+  ['jacket-1.png', 'jacket-1'],
+  ['jacket-2.png', 'jacket-2'],
+  ['jacket-3.png', 'jacket-3'],
+  ['jacket-4.jpeg', 'jacket-4'],
+  ['jacket-with-creator-kinley-dema.jpeg', 'kinley-dema'],
+  ['kkkcreations-label-retouched.png', 'label-detail'],
+  ['shirt-1.png', 'shirt-1'],
+  ['tego-1.jpeg', 'tego-1'],
+]
+const clientWidths = [480, 960, 1600]
 
-await Promise.all(
-  heroWidths.flatMap((width) => [
-    sharp(heroInput)
+await Promise.all(clientPhotos.map(async ([source, name]) => {
+  const input = path.join(clientPhotoDirectory, source)
+  const { width: sourceWidth } = await sharp(input).metadata()
+  const widths = clientWidths.filter((width, index) => (
+    index === 0 || !sourceWidth || clientWidths[index - 1] < sourceWidth
+  ))
+
+  await Promise.all(widths.flatMap((width) => [
+    sharp(input)
+      .rotate()
       .resize({ width, withoutEnlargement: true })
-      .avif({ quality: 60, effort: 5 })
-      .toFile(path.join(assetDirectory, `kkk-hero-v1-${width}.avif`)),
-    sharp(heroInput)
+      .avif({ quality: 62, effort: 5 })
+      .toFile(path.join(clientAssetDirectory, `${name}-${width}.avif`)),
+    sharp(input)
+      .rotate()
       .resize({ width, withoutEnlargement: true })
-      .webp({ quality: 82, effort: 5 })
-      .toFile(path.join(assetDirectory, `kkk-hero-v1-${width}.webp`)),
-  ]),
-)
+      .webp({ quality: 84, effort: 5 })
+      .toFile(path.join(clientAssetDirectory, `${name}-${width}.webp`)),
+  ]))
+}))
 
-const atlasInput = path.join(assetDirectory, 'work-atlas.png')
-
-await Promise.all([
-  sharp(atlasInput)
-    .avif({ quality: 58, effort: 5 })
-    .toFile(path.join(assetDirectory, 'work-atlas-v1.avif')),
-  sharp(atlasInput)
-    .webp({ quality: 82, effort: 5 })
-    .toFile(path.join(assetDirectory, 'work-atlas-v1.webp')),
-])
-
-console.log('Optimized images and copied production fonts.')
+console.log(`Optimized ${clientPhotos.length} client photographs and copied production fonts.`)

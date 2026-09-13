@@ -1,0 +1,28 @@
+{
+  "origin": "https://kkkcreations.tashin599.workers.dev",
+  "siteName": "KKKCreations",
+  "image": "/assets/client/group-dress-4-1600.webp",
+  "imageAlt": "Four women wearing coordinated KKKCreations designs in Bhutan",
+  "pages": {
+    "/": {
+      "title": "KKKCreations — Bespoke tailoring in Bhutan",
+      "description": "Discover KKKCreations, the Paro tailoring studio founded by Thinley Wangmo and Kinley Dema. Explore made-to-measure Bhutanese design and request a fitting."
+    },
+    "/collections/men": {
+      "title": "Men’s made-to-measure collection | KKKCreations Bhutan",
+      "description": "Explore men’s suits, jackets and shirts made to your measurements in Bhutan. Choose a house silhouette or bring your own design and preferred fabric."
+    },
+    "/collections/women": {
+      "title": "Women’s made-to-measure collection | KKKCreations Bhutan",
+      "description": "Explore women’s tailored jackets, suits and shirts from KKKCreations in Bhutan. Create your own fit with a house design or a reference of your own."
+    },
+    "/artists": {
+      "title": "Thinley Wangmo & Kinley Dema | KKKCreations artists",
+      "description": "Meet KKKCreations founders Thinley Wangmo and Kinley Dema, 2 sisters carrying their father Kado’s tailoring legacy into contemporary Bhutanese fashion."
+    }
+  },
+  "notFound": {
+    "title": "Page not found | KKKCreations",
+    "description": "This page could not be found. Return to KKKCreations to explore bespoke tailoring and request a fitting."
+  }
+}

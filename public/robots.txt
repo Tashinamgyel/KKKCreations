@@ -1,0 +1,6 @@
+# Update this sitemap URL and src/data/seo.json when a custom domain is connected.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://kkkcreations.tashin599.workers.dev/sitemap.xml

@@ -1,24 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 900" fill="none">
+  <defs>
+    <marker id="measure-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M7 1 1 4l6 3" stroke="#a9785f" stroke-width="1.2"/>
+    </marker>
+  </defs>
+
+  <!-- A neutral tailoring mannequin: body proportion only, without a garment. -->
   <g stroke="#dbc9b6" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke-width="3" d="M310 86c0-32 20-58 46-58s46 26 46 58c0 30-21 56-46 56s-46-26-46-56Z"/>
-    <path stroke-width="2" d="M327 135c-7 36-30 56-77 71l-81 28-47 226 73 21 36-141-9 222 23 276h97l14-255 15 255h96l21-276-8-221 37 140 72-21-48-226-79-28c-48-15-72-35-79-71"/>
-    <path stroke-width="3" d="m253 206 103 139 103-139M356 345v238M253 206l-22 134M459 206l21 135M310 221l46 124 47-124M246 562h221M342 583l-33 255M370 583l34 255"/>
-    <path stroke-width="2" d="m320 249-39 85 75 11M392 249l39 85-75 11M332 397h48M332 415h48"/>
-    <circle cx="356" cy="380" r="4" fill="#dbc9b6" stroke="none"/>
-    <circle cx="356" cy="438" r="4" fill="#dbc9b6" stroke="none"/>
-    <circle cx="356" cy="496" r="4" fill="#dbc9b6" stroke="none"/>
+    <ellipse cx="380" cy="92" rx="42" ry="58" stroke-width="2"/>
+    <path d="M352 142c2 21-4 37-18 48m74-48c-2 21 4 37 18 48" stroke-width="1.8"/>
+    <path d="M334 190c-43 16-67 45-76 91l-31 211c-3 19 7 35 24 40 17 5 31-6 34-24l27-171" stroke-width="2.2"/>
+    <path d="M426 190c43 16 67 45 76 91l31 211c3 19-7 35-24 40-17 5-31-6-34-24l-27-171" stroke-width="2.2"/>
+    <path d="M334 190c-17 48-20 94-9 139 8 33 9 70-1 111l-20 91c27 20 49 28 76 28s49-8 76-28l-20-91c-10-41-9-78-1-111 11-45 8-91-9-139" stroke-width="2.35"/>
+    <path d="M304 531c-1 73 5 128 18 185l20 134m114-319c1 73-5 128-18 185l-20 134" stroke-width="2.2"/>
+    <path d="M380 559v258m-38 33c0 10-8 16-24 16h-27m127-16c0 10 8 16 24 16h27" stroke-width="2"/>
+    <path d="M325 329c35 9 75 9 110 0M324 440c36 13 76 13 112 0M304 531c48 17 104 17 152 0" stroke-width="1.35" opacity=".72"/>
+    <path d="M380 151v408" stroke-width="1" opacity=".45" stroke-dasharray="5 9"/>
   </g>
-  <g stroke="#a9785f" stroke-width="1.5" stroke-dasharray="7 9">
-    <path d="M142 219h415M143 350h428M174 559h379M245 835h222"/>
-    <path d="M116 220v339M594 220v339"/>
+
+  <!-- Tailor's measurement guides. -->
+  <g stroke="#a9785f" stroke-width="1.35" stroke-dasharray="6 8" marker-start="url(#measure-arrow)" marker-end="url(#measure-arrow)">
+    <path d="M254 202h252"/>
+    <path d="M307 329h146"/>
+    <path d="M304 440h152"/>
+    <path d="M287 531h186"/>
+    <path d="M488 559v291"/>
   </g>
-  <g fill="#dbc9b6" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-style="italic">
-    <text x="44" y="214">shoulder</text>
-    <text x="602" y="355">waist</text>
-    <text x="600" y="565">jacket hem</text>
-    <text x="30" y="848">made to measure</text>
+
+  <g fill="#dbc9b6" font-family="Cormorant Garamond, Georgia, serif" font-size="21" font-style="italic">
+    <text x="104" y="209">shoulder</text>
+    <text x="462" y="336">chest</text>
+    <text x="464" y="447">waist</text>
+    <text x="482" y="538">hip</text>
+    <text x="504" y="714">inseam</text>
   </g>
-  <g stroke="#dbc9b6" stroke-width="2">
-    <path d="M660 108v190M644 116h32M650 146h20M644 176h32M650 206h20M644 236h32M650 266h20M644 296h32"/>
+
+  <g transform="translate(92 666)" stroke="#dbc9b6" stroke-width="1.4" opacity=".8">
+    <path d="M0 0h112M0 20h112M0 40h112"/>
+    <path d="m8-5 12 10m16-10L48 5m16-10L76 5m16-10 12 10" stroke="#a9785f"/>
+    <text x="0" y="78" fill="#dbc9b6" stroke="none" font-family="Cormorant Garamond, Georgia, serif" font-size="19" font-style="italic">measured for one</text>
   </g>
 </svg>

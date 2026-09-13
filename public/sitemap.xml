@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Update this origin and src/data/seo.json when a custom domain is connected. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://kkkcreations.tashin599.workers.dev/</loc></url>
+  <url><loc>https://kkkcreations.tashin599.workers.dev/collections/men</loc></url>
+  <url><loc>https://kkkcreations.tashin599.workers.dev/collections/women</loc></url>
+  <url><loc>https://kkkcreations.tashin599.workers.dev/artists</loc></url>
+</urlset>

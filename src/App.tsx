@@ -1,6 +1,4 @@
 import {
-  type CSSProperties,
-  type FormEvent,
   type MouseEvent as ReactMouseEvent,
   useEffect,
   useRef,
@@ -14,99 +12,123 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom'
+import Appointment from './components/Appointment'
+import { SeoMetadata } from './seo'
 
 type GalleryItem = {
   title: string
   category: string
   detail: string
-  position: string
+  photo: Photo
+  position?: string
 }
 
-type ClientReview = {
+type Photo = {
   name: string
-  comment: string
-  rating: number
+  alt: string
+  width: number
+  height: number
 }
 
-type BookingField = 'name' | 'email' | 'phone'
-type BookingErrors = Partial<Record<BookingField, string>>
+const photos = {
+  dress1: { name: 'dress-1', alt: 'Model wearing a floor-length earth-toned dress with Bhutanese textile details', width: 941, height: 1672 },
+  dress2: { name: 'dress-2', alt: 'Model walking a fashion runway in a red and ivory KKKCreations look', width: 1639, height: 2048 },
+  dress3: { name: 'dress-3', alt: 'Woman wearing a structured cobalt dress with a matching textile handbag', width: 941, height: 1672 },
+  dress4: { name: 'dress-4', alt: 'Two women wearing contemporary Bhutanese ensembles in blue and brown', width: 941, height: 1672 },
+  dress5: { name: 'dress-5', alt: 'Olive wrap dress displayed on a tailor’s form', width: 810, height: 1080 },
+  group: { name: 'group-dress-4', alt: 'Four women wearing coordinated KKKCreations designs on stone steps in Bhutan', width: 8640, height: 5760 },
+  jacket1: { name: 'jacket-1', alt: 'Long navy tailored jacket with embroidered sleeves on a tailor’s form', width: 1087, height: 1447 },
+  jacket2: { name: 'jacket-2', alt: 'Black jacket with vivid Bhutanese geometric textile panels', width: 941, height: 1672 },
+  jacket3: { name: 'jacket-3', alt: 'Man wearing a black velvet jacket with white botanical embroidery', width: 941, height: 1672 },
+  jacket4: { name: 'jacket-4', alt: 'Woman wearing a deep wine velvet jacket with traditional patterned cuffs', width: 1920, height: 2560 },
+  kinley: { name: 'kinley-dema', alt: 'KKKCreations co-founder Kinley Dema adjusting a patterned jacket in the boutique', width: 941, height: 1337 },
+  label: { name: 'label-detail', alt: 'Hands holding the butterfly KKKCreations label against black striped cloth', width: 1672, height: 941 },
+  shirt: { name: 'shirt-1', alt: 'Man wearing a fitted blue Bhutanese-patterned shirt', width: 941, height: 1672 },
+  tego: { name: 'tego-1', alt: 'Rose-pink contemporary tego displayed on a tailor’s form', width: 941, height: 1672 },
+} satisfies Record<string, Photo>
 
-const galleryItems: GalleryItem[] = [
+const selectedWork: GalleryItem[] = [
   {
-    title: 'Cacao wool jacket',
-    category: 'Jackets',
-    detail: 'Soft shoulder · two button',
-    position: '0% 0%',
+    title: 'Ethereal earth tones',
+    category: 'Occasion dress',
+    detail: 'Sculpted layers · textile accents',
+    photo: photos.dress1,
+    position: '50% 34%',
   },
   {
-    title: 'Ivory three-piece',
-    category: 'Suits',
-    detail: 'Peak lapel · tonal buttons',
-    position: '50% 0%',
+    title: 'Botanical velvet jacket',
+    category: 'Menswear',
+    detail: 'Contrast embroidery · relaxed line',
+    photo: photos.jacket3,
+    position: '50% 28%',
   },
   {
-    title: 'Hand-finished lapel',
-    category: 'Details',
-    detail: 'Horn button · pick stitching',
-    position: '100% 0%',
+    title: 'The maker’s mark',
+    category: 'Finishing detail',
+    detail: 'A final signature, sewn by hand',
+    photo: photos.label,
+    position: '52% 50%',
   },
   {
-    title: 'Tobacco cropped jacket',
-    category: 'Jackets',
-    detail: 'Standing collar · sculpted waist',
-    position: '0% 100%',
+    title: 'A modern Bhutanese line',
+    category: 'Runway',
+    detail: 'Crimson weave · asymmetric drape',
+    photo: photos.dress2,
+    position: '50% 24%',
   },
   {
-    title: 'Crisp cotton shirt',
-    category: 'Shirts',
-    detail: 'Cutaway collar · French cuff',
-    position: '50% 100%',
+    title: 'Pattern in full colour',
+    category: 'Tailored jacket',
+    detail: 'Geometric cloth · clean structure',
+    photo: photos.jacket2,
+    position: '50% 28%',
   },
   {
-    title: 'The final hand stitch',
-    category: 'Process',
-    detail: 'Finished by hand in Thimphu',
-    position: '100% 100%',
+    title: 'A softer tradition',
+    category: 'Contemporary tego',
+    detail: 'Rose cloth · elongated proportion',
+    photo: photos.tego,
+    position: '50% 34%',
   },
 ]
+
+const collectionItems: Record<'men' | 'women', GalleryItem[]> = {
+  men: [
+    { title: 'Midnight brocade coat', category: 'Jackets', detail: 'Long line · embroidered sleeve', photo: photos.jacket1, position: '50% 32%' },
+    { title: 'Geometric tailored jacket', category: 'Jackets', detail: 'Bhutanese textile · clean structure', photo: photos.jacket2, position: '50% 30%' },
+    { title: 'Botanical velvet jacket', category: 'Jackets', detail: 'Contrast embroidery · relaxed line', photo: photos.jacket3, position: '50% 28%' },
+    { title: 'Wine velvet jacket', category: 'Jackets', detail: 'Traditional cuff · soft tailoring', photo: photos.jacket4, position: '50% 24%' },
+    { title: 'Indigo patterned shirt', category: 'Shirts', detail: 'Close fit · Bhutanese weave', photo: photos.shirt, position: '50% 30%' },
+  ],
+  women: [
+    { title: 'Ethereal earth tones', category: 'Dresses', detail: 'Sculpted layers · textile accents', photo: photos.dress1, position: '50% 34%' },
+    { title: 'Runway in crimson', category: 'Runway', detail: 'Asymmetric drape · ivory base', photo: photos.dress2, position: '50% 22%' },
+    { title: 'Cobalt structure', category: 'Dresses', detail: 'Tailored shape · matching handbag', photo: photos.dress3, position: '50% 26%' },
+    { title: 'Two ways with tradition', category: 'Traditional', detail: 'Layered textiles · contemporary proportion', photo: photos.dress4, position: '50% 32%' },
+    { title: 'Olive wrap dress', category: 'Dresses', detail: 'Double-breasted wrap · belted waist', photo: photos.dress5, position: '50% 44%' },
+    { title: 'Rose contemporary tego', category: 'Traditional', detail: 'Elongated line · minimal finish', photo: photos.tego, position: '50% 34%' },
+  ],
+}
 
 const collectionCopy = {
   men: {
     eyebrow: 'Made for him',
     title: 'The men’s collection',
     copy: 'Suits, jackets, shirts and trousers cut for your proportions—not a standard size. Start with one of our house silhouettes or bring a reference of your own.',
-    categories: ['All', 'Jackets', 'Suits', 'Shirts', 'Details'],
+    categories: ['All', 'Jackets', 'Shirts'],
   },
   women: {
     eyebrow: 'Made for her',
     title: 'The women’s collection',
     copy: 'Sharp tailoring, quiet structure and a fit resolved around you. Choose a KKKCreations design or arrive with your own idea and preferred cloth.',
-    categories: ['All', 'Jackets', 'Suits', 'Shirts', 'Details'],
+    categories: ['All', 'Dresses', 'Traditional', 'Runway'],
   },
 }
 
-const clientReviews: ClientReview[] = [
-  {
-    name: 'Sonam D.',
-    comment: 'The jacket feels precise without feeling stiff. Every detail was discussed, and the finished fit feels completely natural.',
-    rating: 5,
-  },
-  {
-    name: 'Pema C.',
-    comment: 'I brought a saved reference and chose the cloth in the studio. KKKCreations translated the idea beautifully while making it work for me.',
-    rating: 5,
-  },
-  {
-    name: 'Karma W.',
-    comment: 'Thoughtful fittings, careful finishing and clear advice throughout. The final piece is one I will keep reaching for.',
-    rating: 4,
-  },
-]
-
 const socialPlatforms = [
-  { name: 'Instagram', platform: 'instagram' },
-  { name: 'Facebook', platform: 'facebook' },
-  { name: 'TikTok', platform: 'tiktok' },
+  { name: 'Instagram', platform: 'instagram', href: 'https://www.instagram.com/kkkcreations2025/?hl=en' },
+  { name: 'Facebook', platform: 'facebook', href: 'https://www.facebook.com/profile.php?id=61580623720628' },
+  { name: 'TikTok', platform: 'tiktok', href: 'https://www.tiktok.com/@kkk_creations5?_r=1&_t=ZS-99h3ORSypHg' },
 ] as const
 
 const ROUTE_LEAVE_MS = 180
@@ -169,13 +191,62 @@ function Mark() {
   )
 }
 
+function ClientPhoto({
+  photo,
+  className,
+  sizes = '(max-width: 860px) 100vw, 50vw',
+  position,
+  eager = false,
+}: {
+  photo: Photo
+  className?: string
+  sizes?: string
+  position?: string
+  eager?: boolean
+}) {
+  const srcSet = (format: 'avif' | 'webp') => {
+    const seenWidths = new Set<number>()
+    return [480, 960, 1600]
+      .map((requestedWidth) => ({ requestedWidth, actualWidth: Math.min(requestedWidth, photo.width) }))
+      .filter(({ actualWidth }) => {
+        if (seenWidths.has(actualWidth)) return false
+        seenWidths.add(actualWidth)
+        return true
+      })
+      .map(({ requestedWidth, actualWidth }) => (
+        `/assets/client/${photo.name}-${requestedWidth}.${format} ${actualWidth}w`
+      ))
+      .join(', ')
+  }
+
+  return (
+    <picture className={className}>
+      <source type="image/avif" srcSet={srcSet('avif')} sizes={sizes} />
+      <source type="image/webp" srcSet={srcSet('webp')} sizes={sizes} />
+      <img
+        src={`/assets/client/${photo.name}-960.webp`}
+        alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        {...{ fetchpriority: eager ? 'high' : 'auto' }}
+        style={position ? { objectPosition: position } : undefined}
+      />
+    </picture>
+  )
+}
+
 function ScrollManager() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       if (hash) {
-        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' })
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto'
+          : 'smooth'
+        document.querySelector(hash)?.scrollIntoView({ behavior })
       } else {
         window.scrollTo({ top: 0 })
       }
@@ -187,137 +258,8 @@ function ScrollManager() {
   return null
 }
 
-function ReviewDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  const [rating, setRating] = useState(5)
-  const [submitted, setSubmitted] = useState(false)
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-
-    if (open && !dialog.open) {
-      setRating(5)
-      setSubmitted(false)
-      dialog.showModal()
-    } else if (!open && dialog.open) {
-      dialog.close()
-    }
-  }, [open])
-
-  useEffect(() => {
-    if (!open) return
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-    }
-  }, [open])
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setSubmitted(true)
-  }
-
-  return (
-    <dialog
-      ref={dialogRef}
-      className="review-dialog"
-      aria-labelledby="review-dialog-title"
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) onClose()
-      }}
-    >
-      <div className="review-dialog-panel">
-        <button
-          className="review-dialog-close"
-          type="button"
-          aria-label="Close review form"
-          onClick={onClose}
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-
-        {submitted ? (
-          <div className="review-confirmation" aria-live="polite">
-            <p className="eyebrow">Review received</p>
-            <h2 id="review-dialog-title">Thank you for sharing.</h2>
-            <p>
-              This prototype confirms the submission without publishing it. Saving and
-              moderation will be connected when the backend is ready.
-            </p>
-            <button className="button button--brown" type="button" onClick={onClose}>
-              Close
-            </button>
-          </div>
-        ) : (
-          <form className="review-form" onSubmit={handleSubmit}>
-            <p className="eyebrow">Your experience, in your words</p>
-            <h2 id="review-dialog-title">Leave a review.</h2>
-
-            <label className="review-field">
-              <span>Your name</span>
-              <input name="reviewerName" autoComplete="name" required />
-            </label>
-
-            <label className="review-field">
-              <span>Your review</span>
-              <textarea
-                name="review"
-                placeholder="Tell us about your garment and fitting experience…"
-                maxLength={600}
-                required
-              />
-            </label>
-
-            <fieldset className="review-rating-control">
-              <legend>Rating</legend>
-              <div className="rating-options">
-                {[0, 1, 2, 3, 4, 5].map((value) => (
-                  <span className={`rating-option${value === 0 ? ' rating-option--zero' : ''}`} key={value}>
-                    <input
-                      id={`review-rating-${value}`}
-                      type="radio"
-                      name="rating"
-                      value={value}
-                      checked={rating === value}
-                      onChange={() => setRating(value)}
-                    />
-                    <label
-                      className={value > 0 && value <= rating ? 'is-selected' : ''}
-                      htmlFor={`review-rating-${value}`}
-                    >
-                      <span aria-hidden="true">{value === 0 ? '0' : '★'}</span>
-                      <span className="visually-hidden">{value} out of 5 stars</span>
-                    </label>
-                  </span>
-                ))}
-              </div>
-              <p aria-live="polite">{rating} out of 5 stars</p>
-            </fieldset>
-
-            <button className="button button--brown" type="submit">
-              Submit review
-            </button>
-            <p className="review-form-note">
-              Preview form only. Reviews will be saved once the backend is connected.
-            </p>
-          </form>
-        )}
-      </div>
-    </dialog>
-  )
-}
-
 function Header({ light = false }: { light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [reviewOpen, setReviewOpen] = useState(false)
   const navigationRef = useRef<HTMLElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const transitionTo = useRouteTransition()
@@ -390,18 +332,18 @@ function Header({ light = false }: { light?: boolean }) {
               Women
             </Link>
             <Link to="/#work" onClick={() => setMenuOpen(false)}>Our work</Link>
-            <Link to="/#offers" onClick={() => setMenuOpen(false)}>Offers</Link>
-            <Link to="/#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-            <button
-              className="nav-review-trigger"
-              type="button"
-              onClick={() => {
+            <Link
+              to="/artists"
+              viewTransition
+              onClick={(event) => {
                 setMenuOpen(false)
-                setReviewOpen(true)
+                transitionTo('/artists', event)
               }}
             >
-              Leave a review
-            </button>
+              Our artists
+            </Link>
+            <Link to="/#offers" onClick={() => setMenuOpen(false)}>Offers</Link>
+            <Link to="/#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
           </nav>
 
           <Link className="header-appointment" to="/#appointment">
@@ -422,7 +364,6 @@ function Header({ light = false }: { light?: boolean }) {
           </button>
         </div>
       </header>
-      <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} />
     </>
   )
 }
@@ -434,31 +375,15 @@ function Hero() {
       <div className="measure-rail" aria-hidden="true">
         <span>01</span>
         <i />
-        <span>Made in Thimphu</span>
+        <span>Made in Paro</span>
       </div>
-      <picture className="hero-picture">
-        <source
-          type="image/avif"
-          srcSet="/assets/kkk-hero-v1-768.avif 768w, /assets/kkk-hero-v1-1280.avif 1280w, /assets/kkk-hero-v1-1672.avif 1672w"
-          sizes="100vw"
-        />
-        <source
-          type="image/webp"
-          srcSet="/assets/kkk-hero-v1-768.webp 768w, /assets/kkk-hero-v1-1280.webp 1280w, /assets/kkk-hero-v1-1672.webp 1672w"
-          sizes="100vw"
-        />
-        <img
-          className="hero-image"
-          src="/assets/kkk-hero.png"
-          alt="Woman wearing a made-to-measure black jacket against a warm brown background"
-          width="1672"
-          height="941"
-          sizes="100vw"
-          decoding="async"
-          {...{ fetchpriority: 'high' }}
-        />
-      </picture>
-      <div className="hero-shade" aria-hidden="true" />
+      <ClientPhoto
+        photo={photos.group}
+        className="hero-picture"
+        sizes="(max-width: 860px) 100vw, 54vw"
+        position="50% 44%"
+        eager
+      />
       <div className="hero-content page-shell">
         <p className="eyebrow eyebrow--light">Bespoke tailoring · Bhutan</p>
         <h1 id="hero-title">
@@ -504,6 +429,7 @@ function Collections() {
           viewTransition
           onClick={(event) => transitionTo('/collections/men', event)}
         >
+          <ClientPhoto photo={photos.jacket3} className="collection-photo" position="50% 28%" />
           <span className="collection-number">For him</span>
           <span className="collection-name">Men</span>
           <span className="collection-action">View the collection <ArrowIcon /></span>
@@ -514,6 +440,7 @@ function Collections() {
           viewTransition
           onClick={(event) => transitionTo('/collections/women', event)}
         >
+          <ClientPhoto photo={photos.dress1} className="collection-photo" position="50% 34%" />
           <span className="collection-number">For her</span>
           <span className="collection-name">Women</span>
           <span className="collection-action">View the collection <ArrowIcon /></span>
@@ -523,185 +450,14 @@ function Collections() {
   )
 }
 
-function Appointment() {
-  const [submitted, setSubmitted] = useState(false)
-  const [errors, setErrors] = useState<BookingErrors>({})
-
-  function clearError(field: BookingField) {
-    setErrors((currentErrors) => {
-      if (!currentErrors[field]) return currentErrors
-
-      const nextErrors = { ...currentErrors }
-      delete nextErrors[field]
-      return nextErrors
-    })
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    const form = event.currentTarget
-    const nameInput = form.elements.namedItem('name') as HTMLInputElement | null
-    const emailInput = form.elements.namedItem('email') as HTMLInputElement | null
-    const phoneInput = form.elements.namedItem('phone') as HTMLInputElement | null
-    const nextErrors: BookingErrors = {}
-
-    if (!nameInput?.value.trim()) nextErrors.name = 'Enter your name.'
-
-    if (!emailInput?.value.trim()) {
-      nextErrors.email = 'Enter your email address.'
-    } else if (emailInput.validity.typeMismatch) {
-      nextErrors.email = 'Enter a valid email address.'
-    }
-
-    if (!phoneInput?.value.trim()) nextErrors.phone = 'Enter your phone number.'
-
-    setErrors(nextErrors)
-
-    const firstInvalidField = (['name', 'email', 'phone'] as BookingField[])
-      .find((field) => nextErrors[field])
-
-    if (firstInvalidField) {
-      setSubmitted(false)
-      const invalidInput = form.elements.namedItem(firstInvalidField) as HTMLInputElement | null
-      invalidInput?.focus()
-      return
-    }
-
-    setSubmitted(true)
-  }
-
-  return (
-    <section className="appointment" id="appointment" aria-labelledby="appointment-title">
-      <div className="appointment-visual">
-        <div className="sketch-caption">
-          <span>Pattern 01</span>
-          <span>Cut for one</span>
-        </div>
-        <img
-          src="/assets/fashion-sketch.svg"
-          alt="Fashion designer's line sketch of a tailored jacket with measurement notes"
-          width="760"
-          height="900"
-          loading="lazy"
-        />
-      </div>
-
-      <div className="appointment-content">
-        <p className="eyebrow eyebrow--light">A fitting, not a transaction</p>
-        <h2 id="appointment-title">Let’s shape your idea.</h2>
-        <p className="appointment-lede">
-          Bring a sketch, a saved reference or simply a need. We will talk through proportion,
-          fabric and finish, then take your measurements in the studio.
-        </p>
-
-        <div className="contact-ledger" id="contact">
-          <div>
-            <span>Studio</span>
-            <p>Thimphu, Bhutan</p>
-          </div>
-          <div>
-            <span>Hours</span>
-            <p>Monday–Saturday · By appointment</p>
-          </div>
-          <div>
-            <span>Contact</span>
-            <p><a href="mailto:hello@kkkcreations.bt">hello@kkkcreations.bt</a></p>
-            <p><a href="tel:17123456">17123456</a></p>
-          </div>
-        </div>
-
-        <form className="booking-form" noValidate onSubmit={handleSubmit}>
-          <div className="field-row field-row--contact">
-            <label>
-              <span>Your name</span>
-              <input
-                name="name"
-                autoComplete="name"
-                aria-invalid={Boolean(errors.name)}
-                aria-describedby={errors.name ? 'booking-name-error' : undefined}
-                onInput={() => clearError('name')}
-                required
-              />
-              {errors.name ? (
-                <small className="field-error" id="booking-name-error" aria-live="polite">
-                  {errors.name}
-                </small>
-              ) : null}
-            </label>
-            <label>
-              <span>Email</span>
-              <input
-                type="email"
-                name="email"
-                autoComplete="email"
-                spellCheck={false}
-                aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? 'booking-email-error' : undefined}
-                onInput={() => clearError('email')}
-                required
-              />
-              {errors.email ? (
-                <small className="field-error" id="booking-email-error" aria-live="polite">
-                  {errors.email}
-                </small>
-              ) : null}
-            </label>
-            <label>
-              <span>Phone</span>
-              <input
-                type="tel"
-                name="phone"
-                inputMode="tel"
-                autoComplete="tel"
-                aria-invalid={Boolean(errors.phone)}
-                aria-describedby={errors.phone ? 'booking-phone-error' : undefined}
-                onInput={() => clearError('phone')}
-                required
-              />
-              {errors.phone ? (
-                <small className="field-error" id="booking-phone-error" aria-live="polite">
-                  {errors.phone}
-                </small>
-              ) : null}
-            </label>
-          </div>
-          <div className="field-row">
-            <label>
-              <span>I’m interested in</span>
-              <select name="garment" defaultValue="Jacket" autoComplete="off">
-                <option>Jacket</option>
-                <option>Suit</option>
-                <option>Shirt</option>
-                <option>Trousers</option>
-                <option>Something else</option>
-              </select>
-            </label>
-            <label>
-              <span>Preferred date</span>
-              <input type="date" name="date" autoComplete="off" />
-            </label>
-          </div>
-          <button className="button button--sand" type="submit">Request a fitting</button>
-          <p className="form-note" role="status" aria-live="polite">
-            {submitted
-              ? 'Request saved for this prototype. Connect the final booking service before launch.'
-              : 'We will confirm your appointment and studio directions personally.'}
-          </p>
-        </form>
-      </div>
-    </section>
-  )
-}
-
 function WorkCard({ item, index }: { item: GalleryItem; index: number }) {
   return (
     <article className={`work-card work-card--${index + 1}`}>
-      <div
-        className="atlas-image"
-        style={{ backgroundPosition: item.position } as CSSProperties}
-        role="img"
-        aria-label={item.title}
+      <ClientPhoto
+        photo={item.photo}
+        className="work-image"
+        sizes="(max-width: 620px) 100vw, (max-width: 860px) 50vw, 33vw"
+        position={item.position}
       />
       <div className="work-card-copy">
         <span>{item.category}</span>
@@ -721,15 +477,62 @@ function SelectedWork() {
           <h2 id="work-title">Details that reward a closer look.</h2>
         </div>
         <p>
-          Cloth, proportion and finish are resolved together. This prototype uses editorial
-          placeholders until the studio’s own archive is supplied.
+          Cloth, proportion and finish are resolved together. Every photograph here comes from
+          the KKKCreations studio and its own collection archive.
         </p>
       </div>
 
       <div className="work-grid">
-        {galleryItems.map((item, index) => (
+        {selectedWork.map((item, index) => (
           <WorkCard item={item} index={index} key={item.title} />
         ))}
+      </div>
+    </section>
+  )
+}
+
+function Artists() {
+  return (
+    <section className="artists" id="artists" aria-labelledby="artists-title">
+      <div className="artists-inner page-shell">
+        <div className="artists-heading">
+          <p className="eyebrow">The artists behind the work</p>
+          <h2 id="artists-title">A family craft, carried forward by 2 sisters.</h2>
+          <p className="artists-intro">
+            Thinley Wangmo and Kinley Dema founded KKKCreations as a tribute to their father,
+            Kado, a respected dressmaker whose patience, generosity and eye for cloth shaped
+            their creative lives.
+          </p>
+        </div>
+
+        <figure className="artist-portrait">
+          <ClientPhoto photo={photos.kinley} sizes="(max-width: 860px) 100vw, 42vw" position="50% 40%" />
+          <figcaption>Kinley Dema at the KKKCreations boutique</figcaption>
+        </figure>
+
+        <div className="artists-story">
+          <div className="artist-names" aria-label="KKKCreations founders">
+            <p><span>01</span>Thinley Wangmo</p>
+            <p><span>02</span>Kinley Dema</p>
+          </div>
+          <p>
+            Thinley leads the boutique in Paro while Kinley brings perspective from Australia.
+            Their work pairs modern minimalism with Bhutanese textiles, symbolic pattern and
+            the natural colours of home.
+          </p>
+          <p>
+            The studio’s 2025 Bhutan Fashion Week collection, <em>Ethereal Harmony</em>, explored
+            that meeting point between contemporary form and cultural memory.
+          </p>
+          <a
+            className="text-link"
+            href="https://bhutanfashionweek.com/thinley-wangmo-and-kinley-dema/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read the designer profile <ArrowIcon />
+          </a>
+        </div>
       </div>
     </section>
   )
@@ -783,144 +586,29 @@ function Recognition() {
     <section className="recognition page-shell" aria-labelledby="recognition-title">
       <div className="recognition-title-wrap">
         <Mark />
-        <p className="eyebrow">Awards &amp; acclaim</p>
-        <h2 id="recognition-title">Recognition, properly credited.</h2>
+        <p className="eyebrow">Runway &amp; recognition</p>
+        <h2 id="recognition-title">On the runway, rooted at home.</h2>
         <p>
-          This section is ready for the studio’s verified awards, press and professional
-          associations. Placeholder labels keep the prototype accurate for now.
+          KKKCreations presented <em>Ethereal Harmony</em> at Bhutan Fashion Week 2025—a collection
+          shaped by the serene spirit of Bhutan and the dialogue between heritage and modernity.
         </p>
       </div>
       <div className="recognition-list">
-        {['Award or honour', 'Press feature', 'Professional acclaim'].map((title) => (
-          <article key={title}>
-            <span>To be supplied</span>
-            <h3>{title}</h3>
-            <p>Institution or publication · Year</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function Reviews() {
-  const reviewTrackRef = useRef<HTMLDivElement>(null)
-  const [scrollState, setScrollState] = useState({ canGoBack: false, canGoForward: true })
-
-  useEffect(() => {
-    const track = reviewTrackRef.current
-    if (!track) return
-
-    const updateScrollState = () => {
-      const maximumScroll = track.scrollWidth - track.clientWidth
-      const nextState = {
-        canGoBack: track.scrollLeft > 4,
-        canGoForward: track.scrollLeft < maximumScroll - 4,
-      }
-
-      setScrollState((currentState) => (
-        currentState.canGoBack === nextState.canGoBack &&
-        currentState.canGoForward === nextState.canGoForward
-          ? currentState
-          : nextState
-      ))
-    }
-
-    updateScrollState()
-    track.addEventListener('scroll', updateScrollState, { passive: true })
-
-    const resizeObserver = new ResizeObserver(updateScrollState)
-    resizeObserver.observe(track)
-
-    return () => {
-      track.removeEventListener('scroll', updateScrollState)
-      resizeObserver.disconnect()
-    }
-  }, [])
-
-  function scrollReviews(direction: -1 | 1) {
-    const track = reviewTrackRef.current
-    const firstReview = track?.querySelector<HTMLElement>('.review-entry')
-    if (!track || !firstReview) return
-
-    const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    track.scrollBy({
-      left: direction * (firstReview.getBoundingClientRect().width + gap),
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-    })
-  }
-
-  return (
-    <section className="reviews" id="reviews" aria-labelledby="reviews-title">
-      <div className="reviews-layout page-shell">
-        <div className="reviews-heading">
-          <p className="eyebrow">Client notes · Preview</p>
-          <h2 id="reviews-title">Made for one. Remembered warmly.</h2>
-          <p>
-            A first look at how client feedback will appear. Verified reviews will replace these
-            sample entries when the studio backend is connected.
-          </p>
-        </div>
-
-        <div className="reviews-rail">
-          <div className="reviews-toolbar">
-            <p id="reviews-instructions">
-              {clientReviews.length} client notes · Swipe, scroll or use the arrows
-            </p>
-            <div className="reviews-controls" aria-label="Review navigation">
-              <button
-                className="review-nav-button review-nav-button--previous"
-                type="button"
-                aria-label="Previous review"
-                disabled={!scrollState.canGoBack}
-                onClick={() => scrollReviews(-1)}
-              >
-                <ArrowIcon />
-              </button>
-              <button
-                className="review-nav-button"
-                type="button"
-                aria-label="Next review"
-                disabled={!scrollState.canGoForward}
-                onClick={() => scrollReviews(1)}
-              >
-                <ArrowIcon />
-              </button>
-            </div>
-          </div>
-
-          <div
-            ref={reviewTrackRef}
-            className="reviews-list"
-            role="region"
-            aria-label="Client reviews"
-            aria-describedby="reviews-instructions"
-            tabIndex={0}
-            onKeyDown={(event) => {
-              if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
-
-              event.preventDefault()
-              scrollReviews(event.key === 'ArrowLeft' ? -1 : 1)
-            }}
-          >
-            {clientReviews.map((review) => (
-              <article className="review-entry" key={review.name}>
-                <p className="review-author">{review.name}</p>
-                <blockquote>
-                  <p>“{review.comment}”</p>
-                </blockquote>
-                <p className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
-                  <span aria-hidden="true">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                  </span>
-                  <span>{review.rating}/5</span>
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
+        <a
+          className="recognition-feature"
+          href="https://bhutanfashionweek.com/thinley-wangmo-and-kinley-dema/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>Designer profile</span>
+          <h3>Bhutan Fashion Week</h3>
+          <p>October 2025</p>
+          <span className="recognition-arrow" aria-hidden="true"><ArrowIcon /></span>
+        </a>
+        <figure className="recognition-image">
+          <ClientPhoto photo={photos.dress2} sizes="(max-width: 860px) 100vw, 38vw" position="50% 50%" />
+          <figcaption>Ethereal Harmony · Bhutan Fashion Week 2025</figcaption>
+        </figure>
       </div>
     </section>
   )
@@ -969,15 +657,17 @@ function Footer() {
             <span className="footer-socials-label">Social</span>
             <div className="footer-social-icons" role="list" aria-label="Social media handles">
               {socialPlatforms.map((social) => (
-                <span
-                  className="footer-social-placeholder"
+                <a
+                  className="footer-social-link"
                   role="listitem"
-                  title={`${social.name} link to be supplied`}
+                  href={social.href}
+                  aria-label={`KKKCreations on ${social.name}`}
+                  target="_blank"
+                  rel="noreferrer"
                   key={social.name}
                 >
                   <SocialIcon platform={social.platform} />
-                  <span className="visually-hidden">{social.name} link to be supplied</span>
-                </span>
+                </a>
               ))}
             </div>
           </div>
@@ -988,13 +678,13 @@ function Footer() {
             <Link to="/collections/men">Men</Link>
             <Link to="/collections/women">Women</Link>
             <Link to="/#work">Selected work</Link>
+            <Link to="/artists">Our artists</Link>
           </div>
           <div>
             <span>Visit</span>
             <Link to="/#appointment">Book a fitting</Link>
-            <a href="mailto:hello@kkkcreations.bt">Contact the studio</a>
-            <a href="tel:17123456">17123456</a>
-            <span className="footer-address">Thimphu, Bhutan</span>
+            <Link to="/#appointment">Contact the studio</Link>
+            <span className="footer-address">Paro town, Bhutan</span>
           </div>
         </div>
       </div>
@@ -1015,7 +705,16 @@ function HomePage() {
       <SelectedWork />
       <Offers />
       <Recognition />
-      <Reviews />
+      <Footer />
+    </main>
+  )
+}
+
+function ArtistsPage() {
+  return (
+    <main className="artists-page">
+      <Header />
+      <Artists />
       <Footer />
     </main>
   )
@@ -1024,13 +723,14 @@ function HomePage() {
 function CollectionPage({ audience }: { audience: 'men' | 'women' }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const copy = collectionCopy[audience]
+  const items = collectionItems[audience]
   const requestedCategory = searchParams.get('category')
   const activeCategory = requestedCategory && copy.categories.includes(requestedCategory)
     ? requestedCategory
     : 'All'
   const visibleItems = activeCategory === 'All'
-    ? galleryItems
-    : galleryItems.filter((item) => item.category === activeCategory)
+    ? items
+    : items.filter((item) => item.category === activeCategory)
 
   return (
     <main className="collection-page">
@@ -1102,14 +802,16 @@ export default function App() {
 
   return (
     <>
+      <SeoMetadata />
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <div id="main-content">
+      <div id="main-content" tabIndex={-1}>
         <ScrollManager />
         <div className="route-stage" key={location.pathname}>
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/collections/men" element={<CollectionPage audience="men" />} />
             <Route path="/collections/women" element={<CollectionPage audience="women" />} />
+            <Route path="/artists" element={<ArtistsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
