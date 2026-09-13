@@ -31,6 +31,12 @@ type Photo = {
 }
 
 const photos = {
+  earthPortrait: { name: 'earth-tone-portrait', alt: 'Woman wearing an earth-toned KKKCreations dress beside a traditional Bhutanese colonnade', width: 941, height: 1672 },
+  earthProfile: { name: 'earth-tone-profile', alt: 'Side view of an earth-toned KKKCreations dress overlooking the Bhutanese landscape', width: 941, height: 1672 },
+  furCollarWrap: { name: 'fur-collar-wrap', alt: 'Grey women’s wrap coat with a warm fur collar, cuffs, and Bhutanese textile details', width: 2874, height: 4234 },
+  heritageTrimJacket: { name: 'heritage-trim-jacket', alt: 'Taupe women’s jacket with colourful Bhutanese textile trim on a tailor’s form', width: 2813, height: 5001 },
+  bronzeJacket: { name: 'bronze-tailored-jacket', alt: 'Woman wearing a bronze tailored jacket with Bhutanese textile styling', width: 941, height: 1672 },
+  bag: { name: 'bag', alt: 'KKKCreations textile shoulder bag with a warm leather panel and gold motifs', width: 4284, height: 5712 },
   dress1: { name: 'dress-1', alt: 'Model wearing a floor-length earth-toned dress with Bhutanese textile details', width: 941, height: 1672 },
   dress2: { name: 'dress-2', alt: 'Model walking a fashion runway in a red and ivory KKKCreations look', width: 1639, height: 2048 },
   dress3: { name: 'dress-3', alt: 'Woman wearing a structured cobalt dress with a matching textile handbag', width: 941, height: 1672 },
@@ -40,7 +46,7 @@ const photos = {
   jacket1: { name: 'jacket-1', alt: 'Long navy tailored jacket with embroidered sleeves on a tailor’s form', width: 1087, height: 1447 },
   jacket2: { name: 'jacket-2', alt: 'Black jacket with vivid Bhutanese geometric textile panels', width: 941, height: 1672 },
   jacket3: { name: 'jacket-3', alt: 'Man wearing a black velvet jacket with white botanical embroidery', width: 941, height: 1672 },
-  jacket4: { name: 'jacket-4', alt: 'Woman wearing a deep wine velvet jacket with traditional patterned cuffs', width: 1920, height: 2560 },
+  jacket4: { name: 'jacket-4', alt: 'Woman wearing a deep wine velvet jacket with traditional patterned cuffs against a cocoa studio background', width: 1086, height: 1448 },
   kinley: { name: 'kinley-dema', alt: 'KKKCreations co-founder Kinley Dema adjusting a patterned jacket in the boutique', width: 941, height: 1337 },
   label: { name: 'label-detail', alt: 'Hands holding the butterfly KKKCreations label against black striped cloth', width: 1672, height: 941 },
   shirt: { name: 'shirt-1', alt: 'Man wearing a fitted blue Bhutanese-patterned shirt', width: 941, height: 1672 },
@@ -52,8 +58,8 @@ const selectedWork: GalleryItem[] = [
     title: 'Ethereal earth tones',
     category: 'Occasion dress',
     detail: 'Sculpted layers · textile accents',
-    photo: photos.dress1,
-    position: '50% 34%',
+    photo: photos.earthPortrait,
+    position: '50% 30%',
   },
   {
     title: 'Botanical velvet jacket',
@@ -94,19 +100,23 @@ const selectedWork: GalleryItem[] = [
 
 const collectionItems: Record<'men' | 'women', GalleryItem[]> = {
   men: [
-    { title: 'Midnight brocade coat', category: 'Jackets', detail: 'Long line · embroidered sleeve', photo: photos.jacket1, position: '50% 32%' },
-    { title: 'Geometric tailored jacket', category: 'Jackets', detail: 'Bhutanese textile · clean structure', photo: photos.jacket2, position: '50% 30%' },
     { title: 'Botanical velvet jacket', category: 'Jackets', detail: 'Contrast embroidery · relaxed line', photo: photos.jacket3, position: '50% 28%' },
-    { title: 'Wine velvet jacket', category: 'Jackets', detail: 'Traditional cuff · soft tailoring', photo: photos.jacket4, position: '50% 24%' },
     { title: 'Indigo patterned shirt', category: 'Shirts', detail: 'Close fit · Bhutanese weave', photo: photos.shirt, position: '50% 30%' },
   ],
   women: [
-    { title: 'Ethereal earth tones', category: 'Dresses', detail: 'Sculpted layers · textile accents', photo: photos.dress1, position: '50% 34%' },
+    { title: 'Ethereal earth tones', category: 'Dresses', detail: 'Sculpted layers · textile accents', photo: photos.earthProfile, position: '50% 34%' },
     { title: 'Runway in crimson', category: 'Runway', detail: 'Asymmetric drape · ivory base', photo: photos.dress2, position: '50% 22%' },
     { title: 'Cobalt structure', category: 'Dresses', detail: 'Tailored shape · matching handbag', photo: photos.dress3, position: '50% 26%' },
     { title: 'Two ways with tradition', category: 'Traditional', detail: 'Layered textiles · contemporary proportion', photo: photos.dress4, position: '50% 32%' },
     { title: 'Olive wrap dress', category: 'Dresses', detail: 'Double-breasted wrap · belted waist', photo: photos.dress5, position: '50% 44%' },
     { title: 'Rose contemporary tego', category: 'Traditional', detail: 'Elongated line · minimal finish', photo: photos.tego, position: '50% 34%' },
+    { title: 'Midnight brocade coat', category: 'Jackets', detail: 'Long line · embroidered sleeve', photo: photos.jacket1, position: '50% 32%' },
+    { title: 'Geometric tailored jacket', category: 'Jackets', detail: 'Bhutanese textile · clean structure', photo: photos.jacket2, position: '50% 30%' },
+    { title: 'Wine velvet jacket', category: 'Jackets', detail: 'Traditional cuff · soft tailoring', photo: photos.jacket4, position: '50% 30%' },
+    { title: 'Fur-collar wrap coat', category: 'Jackets', detail: 'Soft collar · embroidered panel', photo: photos.furCollarWrap, position: '50% 44%' },
+    { title: 'Heritage-trim jacket', category: 'Jackets', detail: 'Relaxed sleeve · woven front band', photo: photos.heritageTrimJacket, position: '50% 45%' },
+    { title: 'Bronze tailored jacket', category: 'Jackets', detail: 'Clean lapel · Bhutanese textile pairing', photo: photos.bronzeJacket, position: '50% 30%' },
+    { title: 'Textile shoulder bag', category: 'Accessories', detail: 'Woven motifs · warm leather panel', photo: photos.bag, position: '50% 50%' },
   ],
 }
 
@@ -121,7 +131,7 @@ const collectionCopy = {
     eyebrow: 'Made for her',
     title: 'The women’s collection',
     copy: 'Sharp tailoring, quiet structure and a fit resolved around you. Choose a KKKCreations design or arrive with your own idea and preferred cloth.',
-    categories: ['All', 'Dresses', 'Traditional', 'Runway'],
+    categories: ['All', 'Dresses', 'Jackets', 'Traditional', 'Accessories', 'Runway'],
   },
 }
 

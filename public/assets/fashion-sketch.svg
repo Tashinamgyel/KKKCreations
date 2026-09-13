@@ -29,9 +29,9 @@
 
   <g fill="#dbc9b6" font-family="Cormorant Garamond, Georgia, serif" font-size="21" font-style="italic">
     <text x="104" y="209">shoulder</text>
-    <text x="462" y="336">chest</text>
-    <text x="464" y="447">waist</text>
-    <text x="482" y="538">hip</text>
+    <text x="558" y="336">chest</text>
+    <text x="558" y="447">waist</text>
+    <text x="558" y="538">hip</text>
     <text x="504" y="714">inseam</text>
   </g>
 

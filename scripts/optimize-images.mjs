@@ -32,6 +32,12 @@ await Promise.all(
 )
 
 const clientPhotos = [
+  ['F1362CB6-22D9-4CD5-8B3B-C20FF93EE752.png', 'earth-tone-portrait'],
+  ['FBD9B7FC-74C6-4CFE-A111-7E5F4196D5D4.png', 'earth-tone-profile'],
+  ['IMG_7340.jpeg', 'fur-collar-wrap'],
+  ['IMG_7357.jpeg', 'heritage-trim-jacket'],
+  ['att.UkqQPCvb9E-QHzaYZzFLHQ9_hs3f7mzvwpyLeKUuiDM.jpeg', 'bronze-tailored-jacket'],
+  ['bag.jpeg', 'bag'],
   ['dress-1.png', 'dress-1'],
   ['dress-2.jpeg', 'dress-2'],
   ['dress-3.png', 'dress-3'],
@@ -41,7 +47,7 @@ const clientPhotos = [
   ['jacket-1.png', 'jacket-1'],
   ['jacket-2.png', 'jacket-2'],
   ['jacket-3.png', 'jacket-3'],
-  ['jacket-4.jpeg', 'jacket-4'],
+  ['jacket-4-studio.png', 'jacket-4'],
   ['jacket-with-creator-kinley-dema.jpeg', 'kinley-dema'],
   ['kkkcreations-label-retouched.png', 'label-detail'],
   ['shirt-1.png', 'shirt-1'],

@@ -180,7 +180,7 @@ export default function Appointment() {
       <div className="appointment-visual">
         <div className="sketch-caption"><span>Figure study</span><span>Measured for one</span></div>
         <img
-          src="/assets/fashion-sketch.svg?v=2"
+          src="/assets/fashion-sketch.svg?v=3"
           alt="Minimal human figure outline with tailoring measurement guides"
           width="760" height="900" loading="lazy"
         />
