@@ -21,7 +21,7 @@ const business = JSON.stringify({
   '@type': 'Organization',
   name: seo.siteName,
   url: `${seo.origin}/`,
-  description: 'Bespoke tailoring in Bhutan, made to measure in the fabric you choose.',
+  description: 'Couture Designs made to measure in Bhutan in the fabric you choose.',
   founder: [
     { '@type': 'Person', name: 'Thinley Wangmo' },
     { '@type': 'Person', name: 'Kinley Dema' },

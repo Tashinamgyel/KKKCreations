@@ -1,6 +1,6 @@
-# KKKCreations
+# KCreations
 
-React and TypeScript website for KKKCreations. Fitting requests are sent directly from the browser
+React and TypeScript website for KCreations. Fitting requests are sent directly from the browser
 to the studio's Telegram chat.
 
 The site uses client-supplied photography from `client photos/`. `npm run optimize:images` creates
@@ -22,7 +22,7 @@ VITE_TELEGRAM_CHAT_ID=your-studio-chat-id
 ```
 
 Vite embeds both values in the public browser bundle. This is an intentional frontend-only setup,
-so the bot must be dedicated to receiving KKKCreations appointment requests.
+so the bot must be dedicated to receiving KCreations appointment requests.
 
 ## Telegram Setup
 
@@ -33,6 +33,11 @@ so the bot must be dedicated to receiving KKKCreations appointment requests.
 Customer details are not stored by this project; they are validated in the browser and sent directly
 to Telegram. Because Telegram responses are opaque to cross-origin browser requests, the interface
 can report that the request was sent but cannot independently verify that Telegram accepted it.
+
+## Careers Content
+
+Approved job postings live in `src/data/careers.ts`. Add an entry to `careerOpenings` to publish a
+role on the Careers page, or leave the list empty to show the “No Open Positions” state.
 
 ## Quality Checks & Deployment
 

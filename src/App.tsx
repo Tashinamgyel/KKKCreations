@@ -13,6 +13,7 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 import Appointment from './components/Appointment'
+import { careerOpenings } from './data/careers'
 import { SeoMetadata } from './seo'
 
 type GalleryItem = {
@@ -31,24 +32,24 @@ type Photo = {
 }
 
 const photos = {
-  earthPortrait: { name: 'earth-tone-portrait', alt: 'Woman wearing an earth-toned KKKCreations dress beside a traditional Bhutanese colonnade', width: 941, height: 1672 },
-  earthProfile: { name: 'earth-tone-profile', alt: 'Side view of an earth-toned KKKCreations dress overlooking the Bhutanese landscape', width: 941, height: 1672 },
+  earthPortrait: { name: 'earth-tone-portrait', alt: 'Woman wearing an earth-toned KCreations dress beside a traditional Bhutanese colonnade', width: 941, height: 1672 },
+  earthProfile: { name: 'earth-tone-profile', alt: 'Side view of an earth-toned KCreations dress overlooking the Bhutanese landscape', width: 941, height: 1672 },
   furCollarWrap: { name: 'fur-collar-wrap', alt: 'Grey women’s wrap coat with a warm fur collar, cuffs, and Bhutanese textile details', width: 2874, height: 4234 },
   heritageTrimJacket: { name: 'heritage-trim-jacket', alt: 'Taupe women’s jacket with colourful Bhutanese textile trim on a tailor’s form', width: 2813, height: 5001 },
   bronzeJacket: { name: 'bronze-tailored-jacket', alt: 'Woman wearing a bronze tailored jacket with Bhutanese textile styling', width: 941, height: 1672 },
-  bag: { name: 'bag', alt: 'KKKCreations textile shoulder bag with a warm leather panel and gold motifs', width: 4284, height: 5712 },
+  bag: { name: 'bag', alt: 'KCreations textile shoulder bag with a warm leather panel and gold motifs', width: 4284, height: 5712 },
   dress1: { name: 'dress-1', alt: 'Model wearing a floor-length earth-toned dress with Bhutanese textile details', width: 941, height: 1672 },
-  dress2: { name: 'dress-2', alt: 'Model walking a fashion runway in a red and ivory KKKCreations look', width: 1639, height: 2048 },
+  dress2: { name: 'dress-2', alt: 'Model walking a fashion runway in a red and ivory KCreations look', width: 1639, height: 2048 },
   dress3: { name: 'dress-3', alt: 'Woman wearing a structured cobalt dress with a matching textile handbag', width: 941, height: 1672 },
   dress4: { name: 'dress-4', alt: 'Two women wearing contemporary Bhutanese ensembles in blue and brown', width: 941, height: 1672 },
   dress5: { name: 'dress-5', alt: 'Olive wrap dress displayed on a tailor’s form', width: 810, height: 1080 },
-  group: { name: 'group-dress-4', alt: 'Four women wearing coordinated KKKCreations designs on stone steps in Bhutan', width: 8640, height: 5760 },
+  group: { name: 'group-dress-4', alt: 'Four women wearing coordinated KCreations designs on stone steps in Bhutan', width: 8640, height: 5760 },
   jacket1: { name: 'jacket-1', alt: 'Long navy tailored jacket with embroidered sleeves on a tailor’s form', width: 1087, height: 1447 },
   jacket2: { name: 'jacket-2', alt: 'Black jacket with vivid Bhutanese geometric textile panels', width: 941, height: 1672 },
   jacket3: { name: 'jacket-3', alt: 'Man wearing a black velvet jacket with white botanical embroidery', width: 941, height: 1672 },
   jacket4: { name: 'jacket-4', alt: 'Woman wearing a deep wine velvet jacket with traditional patterned cuffs against a cocoa studio background', width: 1086, height: 1448 },
-  kinley: { name: 'kinley-dema', alt: 'KKKCreations co-founder Kinley Dema adjusting a patterned jacket in the boutique', width: 941, height: 1337 },
-  label: { name: 'label-detail', alt: 'Hands holding the butterfly KKKCreations label against black striped cloth', width: 1672, height: 941 },
+  kinley: { name: 'kinley-dema', alt: 'KCreations co-founder Kinley Dema adjusting a patterned jacket in the boutique', width: 941, height: 1337 },
+  label: { name: 'label-detail', alt: 'Hands holding the KCreations butterfly label against black striped cloth', width: 1672, height: 941 },
   shirt: { name: 'shirt-1', alt: 'Man wearing a fitted blue Bhutanese-patterned shirt', width: 941, height: 1672 },
   tego: { name: 'tego-1', alt: 'Rose-pink contemporary tego displayed on a tailor’s form', width: 941, height: 1672 },
 } satisfies Record<string, Photo>
@@ -130,7 +131,7 @@ const collectionCopy = {
   women: {
     eyebrow: 'Made for her',
     title: 'The women’s collection',
-    copy: 'Sharp tailoring, quiet structure and a fit resolved around you. Choose a KKKCreations design or arrive with your own idea and preferred cloth.',
+    copy: 'Sharp tailoring, quiet structure and a fit resolved around you. Choose a KCreations design or arrive with your own idea and preferred cloth.',
     categories: ['All', 'Dresses', 'Jackets', 'Traditional', 'Accessories', 'Runway'],
   },
 }
@@ -139,6 +140,7 @@ const socialPlatforms = [
   { name: 'Instagram', platform: 'instagram', href: 'https://www.instagram.com/kkkcreations2025/?hl=en' },
   { name: 'Facebook', platform: 'facebook', href: 'https://www.facebook.com/profile.php?id=61580623720628' },
   { name: 'TikTok', platform: 'tiktok', href: 'https://www.tiktok.com/@kkk_creations5?_r=1&_t=ZS-99h3ORSypHg' },
+  { name: 'Email', platform: 'email', href: 'mailto:info@kcreationscouture.com' },
 ] as const
 
 const ROUTE_LEAVE_MS = 180
@@ -308,11 +310,11 @@ function Header({ light = false }: { light?: boolean }) {
           <Link
             className="wordmark"
             to="/"
-            aria-label="KKKCreations home"
+            aria-label="KCreations home"
             translate="no"
             viewTransition
           >
-            <span>KKK</span>Creations
+            <span>K</span>Creations
           </Link>
 
           <nav
@@ -352,7 +354,16 @@ function Header({ light = false }: { light?: boolean }) {
             >
               Our artists
             </Link>
-            <Link to="/#offers" onClick={() => setMenuOpen(false)}>Offers</Link>
+            <Link
+              to="/careers"
+              viewTransition
+              onClick={(event) => {
+                setMenuOpen(false)
+                transitionTo('/careers', event)
+              }}
+            >
+              Careers
+            </Link>
             <Link to="/#contact" onClick={() => setMenuOpen(false)}>Contact</Link>
           </nav>
 
@@ -395,7 +406,7 @@ function Hero() {
         eager
       />
       <div className="hero-content page-shell">
-        <p className="eyebrow eyebrow--light">Bespoke tailoring · Bhutan</p>
+        <p className="eyebrow eyebrow--light">Couture Designs · Bhutan</p>
         <h1 id="hero-title">
           Made to your measure.
           <em>Made to be yours.</em>
@@ -488,7 +499,7 @@ function SelectedWork() {
         </div>
         <p>
           Cloth, proportion and finish are resolved together. Every photograph here comes from
-          the KKKCreations studio and its own collection archive.
+          the KCreations studio and its own collection archive.
         </p>
       </div>
 
@@ -509,7 +520,7 @@ function Artists() {
           <p className="eyebrow">The artists behind the work</p>
           <h2 id="artists-title">A family craft, carried forward by 2 sisters.</h2>
           <p className="artists-intro">
-            Thinley Wangmo and Kinley Dema founded KKKCreations as a tribute to their father,
+            Thinley Wangmo and Kinley Dema founded KCreations as a tribute to their father,
             Kado, a respected dressmaker whose patience, generosity and eye for cloth shaped
             their creative lives.
           </p>
@@ -517,75 +528,31 @@ function Artists() {
 
         <figure className="artist-portrait">
           <ClientPhoto photo={photos.kinley} sizes="(max-width: 860px) 100vw, 42vw" position="50% 40%" />
-          <figcaption>Kinley Dema at the KKKCreations boutique</figcaption>
+          <figcaption>Kinley Dema at the KCreations boutique</figcaption>
         </figure>
 
         <div className="artists-story">
-          <div className="artist-names" aria-label="KKKCreations founders">
+          <div className="artist-names" aria-label="KCreations founders">
             <p><span>01</span>Thinley Wangmo</p>
             <p><span>02</span>Kinley Dema</p>
           </div>
           <p>
-            Thinley leads the boutique in Paro while Kinley brings perspective from Australia.
-            Their work pairs modern minimalism with Bhutanese textiles, symbolic pattern and
+            Thinley and Kinley bring complementary perspectives to the studio. Their work pairs
+            modern minimalism with Bhutanese textiles, symbolic pattern and
             the natural colours of home.
           </p>
           <p>
             The studio’s 2025 Bhutan Fashion Week collection, <em>Ethereal Harmony</em>, explored
             that meeting point between contemporary form and cultural memory.
           </p>
-          <a
+          <Link
             className="text-link"
-            href="https://bhutanfashionweek.com/thinley-wangmo-and-kinley-dema/"
-            target="_blank"
-            rel="noreferrer"
+            to="/artists/profile"
+            viewTransition
           >
             Read the designer profile <ArrowIcon />
-          </a>
+          </Link>
         </div>
-      </div>
-    </section>
-  )
-}
-
-function Offers() {
-  const offers = [
-    {
-      label: 'Wardrobe offer',
-      title: 'Order two shirts, receive a third.',
-      copy: 'Build a working rotation in three fabrics, cut from one perfected pattern.',
-    },
-    {
-      label: 'First fitting',
-      title: 'Complimentary design consultation.',
-      copy: 'A 30-minute fabric and silhouette consultation for first-time clients.',
-    },
-    {
-      label: 'Occasion dressing',
-      title: 'Tailoring for the whole party.',
-      copy: 'Preferential pricing for three or more coordinated occasion looks.',
-    },
-  ]
-
-  return (
-    <section className="offers" id="offers" aria-labelledby="offers-title">
-      <div className="offers-intro page-shell">
-        <p className="eyebrow eyebrow--light">Studio offers · Preview</p>
-        <h2 id="offers-title">More reason to make it personal.</h2>
-        <p>Temporary offer concepts. Final pricing and terms will be confirmed by KKKCreations.</p>
-      </div>
-      <div className="offer-list page-shell">
-        {offers.map((offer, index) => (
-          <article className="offer" key={offer.title}>
-            <span className="offer-index">0{index + 1}</span>
-            <p className="offer-label">{offer.label}</p>
-            <h3>{offer.title}</h3>
-            <p>{offer.copy}</p>
-            <Link to="/#appointment" className="text-link text-link--light">
-              Ask at your fitting <ArrowIcon />
-            </Link>
-          </article>
-        ))}
       </div>
     </section>
   )
@@ -599,7 +566,7 @@ function Recognition() {
         <p className="eyebrow">Runway &amp; recognition</p>
         <h2 id="recognition-title">On the runway, rooted at home.</h2>
         <p>
-          KKKCreations presented <em>Ethereal Harmony</em> at Bhutan Fashion Week 2025—a collection
+          KCreations presented <em>Ethereal Harmony</em> at Bhutan Fashion Week 2025—a collection
           shaped by the serene spirit of Bhutan and the dialogue between heritage and modernity.
         </p>
       </div>
@@ -624,7 +591,7 @@ function Recognition() {
   )
 }
 
-function SocialIcon({ platform }: { platform: 'instagram' | 'facebook' | 'tiktok' }) {
+function SocialIcon({ platform }: { platform: 'instagram' | 'facebook' | 'tiktok' | 'email' }) {
   if (platform === 'instagram') {
     return (
       <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
@@ -646,6 +613,15 @@ function SocialIcon({ platform }: { platform: 'instagram' | 'facebook' | 'tiktok
     )
   }
 
+  if (platform === 'email') {
+    return (
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="1" />
+        <path d="m4 6 8 7 8-7" />
+      </svg>
+    )
+  }
+
   return (
     <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
       <path d="M14.5 4v11.1a4.6 4.6 0 1 1-3.4-4.4v3.2a1.6 1.6 0 1 0 .4 1.2V4h3Z" />
@@ -660,20 +636,20 @@ function Footer() {
       <div className="footer-main page-shell">
         <div className="footer-brand">
           <Link className="wordmark wordmark--footer" to="/" translate="no">
-            <span>KKK</span>Creations
+            <span>K</span>Creations
           </Link>
-          <p>Bespoke tailoring, made in Bhutan.</p>
+          <p>Couture Designs, made in Bhutan.</p>
           <div className="footer-socials">
             <span className="footer-socials-label">Social</span>
-            <div className="footer-social-icons" role="list" aria-label="Social media handles">
+            <div className="footer-social-icons" role="list" aria-label="Social media and email links">
               {socialPlatforms.map((social) => (
                 <a
                   className="footer-social-link"
                   role="listitem"
                   href={social.href}
-                  aria-label={`KKKCreations on ${social.name}`}
-                  target="_blank"
-                  rel="noreferrer"
+                  aria-label={social.platform === 'email' ? 'Email KCreations' : `KCreations on ${social.name}`}
+                  target={social.platform === 'email' ? undefined : '_blank'}
+                  rel={social.platform === 'email' ? undefined : 'noreferrer'}
                   key={social.name}
                 >
                   <SocialIcon platform={social.platform} />
@@ -689,17 +665,18 @@ function Footer() {
             <Link to="/collections/women">Women</Link>
             <Link to="/#work">Selected work</Link>
             <Link to="/artists">Our artists</Link>
+            <Link to="/careers">Careers</Link>
           </div>
           <div>
             <span>Visit</span>
             <Link to="/#appointment">Book a fitting</Link>
             <Link to="/#appointment">Contact the studio</Link>
-            <span className="footer-address">Paro town, Bhutan</span>
+            <span className="footer-address">Paro, Bhutan</span>
           </div>
         </div>
       </div>
       <div className="footer-bottom page-shell">
-        <span>© {new Date().getFullYear()} KKKCreations</span>
+        <span>© {new Date().getFullYear()} KCreations</span>
         <span>Made carefully, worn often.</span>
       </div>
     </footer>
@@ -713,7 +690,6 @@ function HomePage() {
       <Collections />
       <Appointment />
       <SelectedWork />
-      <Offers />
       <Recognition />
       <Footer />
     </main>
@@ -725,6 +701,120 @@ function ArtistsPage() {
     <main className="artists-page">
       <Header />
       <Artists />
+      <Footer />
+    </main>
+  )
+}
+
+function DesignerProfilePage() {
+  return (
+    <main className="editorial-page">
+      <Header />
+      <article className="profile-article page-shell">
+        <header className="profile-header">
+          <p className="eyebrow">The House &amp; Its Heritage</p>
+          <h1>K Creations — A Premium Couture House in Bhutan</h1>
+          <p className="profile-deck">Fine fabrics, generational knowledge and contemporary couture, shaped in Paro.</p>
+        </header>
+
+        <div className="profile-layout">
+          <aside className="profile-aside" aria-label="K Creations founders">
+            <figure>
+              <ClientPhoto photo={photos.kinley} sizes="(max-width: 860px) 100vw, 30vw" position="50% 40%" />
+              <figcaption>Kinley Dema at the K Creations boutique</figcaption>
+            </figure>
+            <p>Founded by sisters</p>
+            <strong>Kinley Dema<br />Thinley Wangmo</strong>
+          </aside>
+
+          <div className="profile-copy">
+            <p>
+              Founded by sisters <strong><em>Kinley Dema and Thinley Wangmo</em></strong>, <strong><em>K Creations</em></strong> is a premium couture house located in the heart of Paro, Bhutan. The studio is built on a rich family legacy of dressmaking, rooted in the dedication and experience of their father, <strong><em>Kado</em></strong>, whose journey in dressmaking began in Paro town in the 1980s. His passion for craftsmanship and precision laid the foundation for a creative family business that continues to evolve through generations.
+            </p>
+            <p>
+              With more than <strong><em>25 years of experience in the dressmaking industry</em></strong>, K Creations brings together Bhutanese heritage, contemporary fashion, and refined couture craftsmanship. The studio works with an exceptional selection of local and international textiles, including silk, raw silk or <strong><em>bura</em></strong>, cotton, sheep wool, yak hair, nettle fibre or <strong><em>zocha</em></strong>, Yathra Bhutanese wool, handwoven fabrics, Indian silk, Chinese silk, and Japanese silk.
+            </p>
+            <p>
+              These distinctive textiles are thoughtfully paired with luxurious materials such as cashmere, vicuña, merino wool, alpaca, mohair, tweed, bouclé, velvet, brocade, jacquard, leather, suede, shearling, and silk-wool blends. For elegant dresses and eveningwear, the studio also uses silk satin, duchesse satin, silk mikado, silk crepe, georgette, chiffon, organza, taffeta, lace, silk faille, silk charmeuse, fine linen, velvet, and richly patterned brocade and jacquard.
+            </p>
+            <p>
+              What sets K Creations apart is its ability to transform exceptional fabrics into truly individual pieces. Traditional Bhutanese handwoven textiles and distinctive cultural patterns are combined with modern silhouettes, precise tailoring, and imaginative detailing to create elegant jackets, dresses, gowns, and bespoke ensembles. Every garment is designed and crafted in-house, with meticulous attention given to every stitch, seam, fabric, fitting, and finish.
+            </p>
+            <p>
+              At K Creations, each client receives a personal and considered design experience. The sisters work closely with clients to understand their personality, preferences, lifestyle, and vision, creating garments that are not only beautiful but also comfortable, distinctive, and perfectly suited to the wearer. Whether it is a traditional-inspired ensemble, a contemporary jacket, an elegant evening dress, or a complete couture creation, every piece is made with skill, care, and purpose.
+            </p>
+            <p>
+              For those seeking a designer who understands the technical character of every fabric and the precision required in every stitch, K Creations offers an exceptional couture experience in Bhutan. From the first idea to the final fitting, the studio transforms personal visions into refined, one-of-a-kind garments that reflect individuality, cultural identity, and timeless elegance.
+            </p>
+            <p className="profile-closing">
+              <strong><em>K Creations is where Bhutanese heritage meets contemporary couture—where fine fabrics become wearable art, and every garment tells a story.</em></strong>
+            </p>
+            <Link className="button button--brown" to="/#appointment">Book a Couture Consultation</Link>
+          </div>
+        </div>
+      </article>
+      <Footer />
+    </main>
+  )
+}
+
+function CareersPage() {
+  return (
+    <main className="editorial-page careers-page">
+      <Header />
+      <section className="careers-hero page-shell" aria-labelledby="careers-title">
+        <div>
+          <p className="eyebrow">Careers at KCreations</p>
+          <h1 id="careers-title">Help shape the next chapter of couture.</h1>
+        </div>
+        <p>
+          Join a family-led studio where Bhutanese textile heritage, thoughtful design and exacting
+          craft come together. Opportunities are based in Paro, Bhutan.
+        </p>
+      </section>
+
+      <section className="career-openings page-shell" aria-labelledby="openings-title">
+        <div className="career-openings-heading">
+          <p className="eyebrow">Current Openings</p>
+          <h2 id="openings-title">Work With Us</h2>
+        </div>
+
+        {careerOpenings.length > 0 ? (
+          <div className="career-list">
+            {careerOpenings.map((opening) => (
+              <article className="career-card" key={opening.slug}>
+                <div>
+                  <p className="career-meta">{opening.location} · {opening.schedule}</p>
+                  <h3>{opening.title}</h3>
+                  <p>{opening.summary}</p>
+                </div>
+                <div className="career-details">
+                  <div>
+                    <h4>What You’ll Do</h4>
+                    <ul>{opening.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>
+                  <div>
+                    <h4>What You’ll Bring</h4>
+                    <ul>{opening.requirements.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>
+                </div>
+                <a className="button button--brown" href={opening.applicationUrl}>Apply for This Role</a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="career-empty">
+            <span aria-hidden="true">K</span>
+            <div>
+              <h3>No Open Positions Right Now</h3>
+              <p>New opportunities will be published here when they become available. Follow KCreations on social media for studio news and future openings.</p>
+              <a className="text-link" href={socialPlatforms[0].href} target="_blank" rel="noreferrer">
+                Follow on Instagram <ArrowIcon />
+              </a>
+            </div>
+          </div>
+        )}
+      </section>
       <Footer />
     </main>
   )
@@ -822,6 +912,8 @@ export default function App() {
             <Route path="/collections/men" element={<CollectionPage audience="men" />} />
             <Route path="/collections/women" element={<CollectionPage audience="women" />} />
             <Route path="/artists" element={<ArtistsPage />} />
+            <Route path="/artists/profile" element={<DesignerProfilePage />} />
+            <Route path="/careers" element={<CareersPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

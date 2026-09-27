@@ -1,18 +1,27 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react'
 
-type BookingField = 'customerName' | 'email' | 'phone' | 'garmentInterest' | 'preferredDate'
+type BookingField = 'customerName' | 'email' | 'phone' | 'location' | 'garmentInterest' | 'preferredDate'
 type BookingErrors = Partial<Record<BookingField, string>>
 type BookingStatus = 'idle' | 'sending' | 'sent' | 'error'
 
 const telegramBotToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN?.trim()
 const telegramChatId = import.meta.env.VITE_TELEGRAM_CHAT_ID?.trim()
 
-const bookingFields: BookingField[] = ['customerName', 'email', 'phone', 'garmentInterest', 'preferredDate']
+const bookingFields: BookingField[] = ['customerName', 'email', 'phone', 'location', 'garmentInterest', 'preferredDate']
+const studioLocations = [
+  { value: 'paro-bhutan', label: 'Paro, Bhutan' },
+  { value: 'act-canberra', label: 'ACT, Canberra' },
+]
 const garmentOptions = [
   { value: 'jacket', label: 'Jacket' },
   { value: 'suit', label: 'Suit' },
   { value: 'shirt', label: 'Shirt' },
   { value: 'trousers', label: 'Trousers' },
+  { value: 'dress', label: 'Dress' },
+  { value: 'gho', label: 'Gho' },
+  { value: 'kira', label: 'Kira' },
+  { value: 'tego', label: 'Tego' },
+  { value: 'made-to-measure-tops', label: 'Made-to-measure tops' },
   { value: 'own-design', label: 'My own design' },
 ]
 
@@ -28,11 +37,14 @@ function telegramMessage(payload: {
   customerName: string
   email: string
   phone: string
+  location: string
   garmentInterest: string
   preferredDate: string | null
 }) {
   const garment = garmentOptions.find((option) => option.value === payload.garmentInterest)?.label
     ?? payload.garmentInterest
+  const location = studioLocations.find((option) => option.value === payload.location)?.label
+    ?? payload.location
   const reference = `FIT-${crypto.randomUUID().slice(0, 8).toUpperCase()}`
   const received = new Intl.DateTimeFormat('en-GB', {
     dateStyle: 'medium',
@@ -41,12 +53,13 @@ function telegramMessage(payload: {
   }).format(new Date())
 
   return [
-    'KKKCreations — fitting request',
+    'KCreations — fitting request',
     '',
     `Reference: ${reference}`,
     `Name: ${payload.customerName}`,
     `Email: ${payload.email}`,
     `Phone: ${payload.phone}`,
+    `Location: ${location}`,
     `Interested in: ${garment}`,
     `Preferred date: ${payload.preferredDate ?? 'Flexible — please arrange directly'}`,
     '',
@@ -112,6 +125,7 @@ export default function Appointment() {
       customerName: value('customerName'),
       email: value('email'),
       phone: value('phone'),
+      location: value('location'),
       garmentInterest: value('garmentInterest'),
       preferredDate: value('preferredDate') || null,
       website: value('website'),
@@ -125,6 +139,9 @@ export default function Appointment() {
     if (!payload.phone) nextErrors.phone = 'Enter your phone number.'
     else if (!/^\+?[\d\s().-]+$/.test(payload.phone) || !/^\d{7,15}$/.test(payload.phone.replace(/\D/g, ''))) {
       nextErrors.phone = 'Enter a valid phone number, including your country code if outside Bhutan.'
+    }
+    if (!studioLocations.some((option) => option.value === payload.location)) {
+      nextErrors.location = 'Choose the studio location you want to visit.'
     }
     if (!garmentOptions.some((option) => option.value === payload.garmentInterest)) {
       nextErrors.garmentInterest = 'Choose the garment you are interested in.'
@@ -193,7 +210,7 @@ export default function Appointment() {
           fabric and finish, then take your measurements in the studio.
         </p>
         <div className="contact-ledger" id="contact">
-          <div><span>Studio</span><p>Paro town, Bhutan</p></div>
+          <div><span>Studio</span><p>Paro, Bhutan</p></div>
           <div><span>Hours</span><p>Monday–Saturday · By appointment</p></div>
           <div>
             <span>Booking</span>
@@ -213,7 +230,7 @@ export default function Appointment() {
           </div>
         ) : (
           <form className="booking-form" ref={formRef} noValidate onSubmit={handleSubmit} aria-busy={status === 'sending'}>
-            <p className="booking-required-note">Your name, email, phone number and garment interest are required.</p>
+            <p className="booking-required-note">Your name, contact details, studio location and garment interest are required.</p>
             <fieldset className="booking-fields" disabled={status === 'sending'}>
               <legend className="visually-hidden">Your fitting request</legend>
               <div className="booking-honeypot" aria-hidden="true">
@@ -243,12 +260,23 @@ export default function Appointment() {
                   <FieldError field="phone" errors={errors} />
                 </div>
               </div>
-              <div className="field-row">
+              <div className="field-row field-row--details">
+                <div className="booking-field">
+                  <label htmlFor="booking-location">Preferred studio</label>
+                  <select id="booking-location" name="location" defaultValue="" autoComplete="off"
+                    aria-invalid={Boolean(errors.location)} aria-describedby={errors.location ? 'booking-location-error' : undefined}
+                    onChange={() => clearError('location')} required>
+                    <option value="" disabled>Choose a location</option>
+                    {studioLocations.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                  </select>
+                  <FieldError field="location" errors={errors} />
+                </div>
                 <div className="booking-field">
                   <label htmlFor="booking-garment">I’m interested in</label>
-                  <select id="booking-garment" name="garmentInterest" defaultValue="jacket" autoComplete="off"
+                  <select id="booking-garment" name="garmentInterest" defaultValue="" autoComplete="off"
                     aria-invalid={Boolean(errors.garmentInterest)} aria-describedby={errors.garmentInterest ? 'booking-garmentInterest-error' : undefined}
-                    onChange={() => clearError('garmentInterest')}>
+                    onChange={() => clearError('garmentInterest')} required>
+                    <option value="" disabled>Choose a garment</option>
                     {garmentOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                   </select>
                   <FieldError field="garmentInterest" errors={errors} />
@@ -272,7 +300,6 @@ export default function Appointment() {
               {status === 'sending' ? <p className="form-note">Sending your request to the studio…</p> : null}
             </div>
             <p className="form-note">We’ll contact you by email or phone to confirm your appointment. Sending a request does not reserve a time.</p>
-            <p className="form-note form-note--privacy">Your details are shared privately with the studio through Telegram, only to arrange your fitting.</p>
           </form>
         )}
       </div>
